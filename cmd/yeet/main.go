@@ -12,12 +12,12 @@ import (
 	"strings"
 
 	"al.essio.dev/pkg/shellescape"
-	yeetver "github.com/Techaro/yeet"
-	"github.com/Techaro/yeet/internal/mkdeb"
-	"github.com/Techaro/yeet/internal/mkrpm"
-	"github.com/Techaro/yeet/internal/mktarball"
-	"github.com/Techaro/yeet/internal/pkgmeta"
-	"github.com/Techaro/yeet/internal/yeet"
+	yeetver "github.com/TecharoHQ/yeet"
+	"github.com/TecharoHQ/yeet/internal/mkdeb"
+	"github.com/TecharoHQ/yeet/internal/mkrpm"
+	"github.com/TecharoHQ/yeet/internal/mktarball"
+	"github.com/TecharoHQ/yeet/internal/pkgmeta"
+	"github.com/TecharoHQ/yeet/internal/yeet"
 	"github.com/dop251/goja"
 )
 

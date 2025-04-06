@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## v0.0.6
+
+- Exit when `--version` is passed.
+- Fix CI package autobuilds.
+
 ## v0.0.4
 
 Fix go.mod name for project.

@@ -104,6 +104,7 @@ func main() {
 
 	if *version {
 		fmt.Printf("yeet version %s\n", yeetver.Version)
+		return
 	}
 
 	vm := goja.New()

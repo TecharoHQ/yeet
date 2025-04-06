@@ -3,11 +3,30 @@
         name: "yeet",
         description: "Yeet out scripts with maximum haste!",
         homepage: "https://techaro.lol",
-        license: "CC0",
+        license: "MIT",
         goarch,
 
-        build: (out) => {
-            go.build("-o", `${out}/usr/bin/yeet`, "./cmd/yeet");
+        build: ({ bin }) => {
+            go.build("-o", `${bin}/yeet`, "./cmd/yeet");
         },
     }))
 );
+
+tarball.build({
+    name: "yeet-src-vendor",
+    license: "MIT",
+    // XXX(Xe): This is needed otherwise go will be very sad.
+    platform: yeet.goos,
+    goarch: yeet.goarch,
+
+    build: ({ out }) => {
+        // prepare clean checkout in $out
+        $`git archive --format=tar HEAD | tar xC ${out}`;
+        // vendor Go dependencies
+        $`cd ${out} && go mod vendor`;
+        // write VERSION file
+        $`echo ${git.tag()} > ${out}/VERSION`;
+    },
+
+    mkFilename: ({ name, version }) => `${name}-${version}`,
+});

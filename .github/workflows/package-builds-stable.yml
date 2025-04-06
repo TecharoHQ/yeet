@@ -57,10 +57,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-golang-
 
-    - name: install node deps
-      run: |
-        npm ci
-
     - name: Build Packages
       run: |
         go run ./cmd/yeet

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## v0.0.3
+
+Fix CI for package builds.
+
 ## v0.0.2
 
 - Document package build settings and introduce `yeet.getenv`.

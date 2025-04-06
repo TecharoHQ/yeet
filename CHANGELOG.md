@@ -7,4 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Import source code from [/x/](https://github.com/Xe/x)
+## v0.0.2
+
+- Document package build settings and introduce `yeet.getenv`.
+
+## v0.0.1
+
+- Import source code from [/x/](https://github.com/Xe/x).

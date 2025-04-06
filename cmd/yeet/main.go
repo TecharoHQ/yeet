@@ -192,6 +192,7 @@ func main() {
 		"runcmd":   runcmd,
 		"run":      runcmd,
 		"setenv":   os.Setenv,
+		"getenv":   os.Getenv,
 		"goos":     runtime.GOOS,
 		"goarch":   runtime.GOARCH,
 	})

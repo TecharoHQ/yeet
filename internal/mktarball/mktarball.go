@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/Techaro/yeet/internal"
-	"github.com/Techaro/yeet/internal/pkgmeta"
+	"github.com/TecharoHQ/yeet/internal"
+	"github.com/TecharoHQ/yeet/internal/pkgmeta"
 )
 
 func defaultFname(p pkgmeta.Package) string {

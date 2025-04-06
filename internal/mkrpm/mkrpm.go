@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/Techaro/yeet/internal"
-	"github.com/Techaro/yeet/internal/pkgmeta"
+	"github.com/TecharoHQ/yeet/internal"
+	"github.com/TecharoHQ/yeet/internal/pkgmeta"
 	"github.com/goreleaser/nfpm/v2"
 	"github.com/goreleaser/nfpm/v2/files"
 	_ "github.com/goreleaser/nfpm/v2/rpm"

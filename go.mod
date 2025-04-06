@@ -1,4 +1,4 @@
-module github.com/Techaro/yeet
+module github.com/TecharoHQ/yeet
 
 go 1.24.2
 

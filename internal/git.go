@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/Songmu/gitconfig"
-	"github.com/Techaro/yeet/internal/yeet"
+	"github.com/TecharoHQ/yeet/internal/yeet"
 )
 
 var (

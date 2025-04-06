@@ -1,0 +1,69 @@
+name: Go
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  go_tests:
+    #runs-on: alrest-techarohq
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+
+    - name: build essential
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential
+
+    - name: Set up Homebrew
+      uses: Homebrew/actions/setup-homebrew@master
+
+    - name: Setup Homebrew cellar cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          /home/linuxbrew/.linuxbrew/Cellar
+          /home/linuxbrew/.linuxbrew/bin
+          /home/linuxbrew/.linuxbrew/etc
+          /home/linuxbrew/.linuxbrew/include
+          /home/linuxbrew/.linuxbrew/lib
+          /home/linuxbrew/.linuxbrew/opt
+          /home/linuxbrew/.linuxbrew/sbin
+          /home/linuxbrew/.linuxbrew/share
+          /home/linuxbrew/.linuxbrew/var
+        key: ${{ runner.os }}-go-homebrew-cellar-${{ hashFiles('go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-homebrew-cellar-
+
+    - name: Install Brew dependencies
+      run: |
+        brew bundle
+
+    - name: Setup Golang caches
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/go-build
+          ~/go/pkg/mod
+        key: ${{ runner.os }}-golang-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-golang-
+
+    - name: Build
+      run: make build
+
+    - name: Test
+      run: make test
+
+    - uses: dominikh/staticcheck-action@v1
+      with:
+        version: "latest"

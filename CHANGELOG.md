@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## v0.0.7
+
+Make configuration files for OS packages have mode 0600 by default.
+
 ## v0.0.6
 
 - Exit when `--version` is passed.

@@ -77,6 +77,9 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			Type:        files.TypeConfig,
 			Source:      repoPath,
 			Destination: rpmPath,
+			FileInfo: &files.ContentFileInfo{
+				Mode: os.FileMode(0600),
+			},
 		})
 	}
 

@@ -36,6 +36,14 @@ Yeetfiles MUST obey the following rules:
 
 See [the API documentation](./doc/api.md) for more information about the exposed API.
 
+## Installation
+
+To install `yeet`, use the following command:
+
+```sh
+go install github.com/TecharoHQ/yeet/cmd/yeet@latest
+```
+
 ## Support
 
 For support, please [subscribe to me on Patreon](https://patreon.com/cadey) and ask in the `#yeet` channel in the patron Discord.

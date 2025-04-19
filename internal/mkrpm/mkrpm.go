@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"time"
 
 	"github.com/TecharoHQ/yeet/internal"
 	"github.com/TecharoHQ/yeet/internal/pkgmeta"
@@ -69,7 +70,13 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			continue
 		}
 
-		contents = append(contents, &files.Content{Type: files.TypeDir, Destination: d})
+		contents = append(contents, &files.Content{
+			Type:        files.TypeDir,
+			Destination: d,
+			FileInfo: &files.ContentFileInfo{
+				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
+			},
+		})
 	}
 
 	for repoPath, rpmPath := range p.ConfigFiles {
@@ -78,7 +85,8 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			Source:      repoPath,
 			Destination: rpmPath,
 			FileInfo: &files.ContentFileInfo{
-				Mode: os.FileMode(0600),
+				Mode:  os.FileMode(0600),
+				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
 			},
 		})
 	}
@@ -88,6 +96,9 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			Type:        files.TypeRPMDoc,
 			Source:      repoPath,
 			Destination: filepath.Join("/usr/share/doc", p.Name, rpmPath),
+			FileInfo: &files.ContentFileInfo{
+				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
+			},
 		})
 	}
 
@@ -96,6 +107,9 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			Type:        files.TypeFile,
 			Source:      repoPath,
 			Destination: rpmPath,
+			FileInfo: &files.ContentFileInfo{
+				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
+			},
 		})
 	}
 
@@ -108,7 +122,14 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			return nil
 		}
 
-		contents = append(contents, &files.Content{Type: files.TypeFile, Source: path, Destination: path[len(dir)+1:]})
+		contents = append(contents, &files.Content{
+			Type:        files.TypeFile,
+			Source:      path,
+			Destination: path[len(dir)+1:],
+			FileInfo: &files.ContentFileInfo{
+				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
+			},
+		})
 
 		return nil
 	}); err != nil {

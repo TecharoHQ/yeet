@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - Added installation instructions to the `README.md`
 
+- Set mtime for deb/rpm package files to unix time 0.
+
 ## v0.0.7
 
 Make configuration files for OS packages have mode 0600 by default.

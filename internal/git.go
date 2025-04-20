@@ -29,7 +29,7 @@ func gpgKeyFileLocation() string {
 		return ""
 	}
 
-	return filepath.Join(folder, "within.website", "x", "yeet", "key.asc")
+	return filepath.Join(folder, "techaro.lol", "yeet", "key.asc")
 }
 
 func GitUserName() string {

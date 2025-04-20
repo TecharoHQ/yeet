@@ -69,6 +69,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			Destination: d,
 			FileInfo: &files.ContentFileInfo{
 				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
+				Mode:  os.FileMode(0600),
 			},
 		})
 	}

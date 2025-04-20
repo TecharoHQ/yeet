@@ -8,11 +8,13 @@ import (
 	"log/slog"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 	"strings"
 
 	"al.essio.dev/pkg/shellescape"
 	yeetver "github.com/TecharoHQ/yeet"
+	"github.com/TecharoHQ/yeet/internal/confyg/flagconfyg"
 	"github.com/TecharoHQ/yeet/internal/mkdeb"
 	"github.com/TecharoHQ/yeet/internal/mkrpm"
 	"github.com/TecharoHQ/yeet/internal/mktarball"
@@ -22,9 +24,23 @@ import (
 )
 
 var (
+	config  = flag.String("config", configFileLocation(), "configuration file, if set (see flagconfyg(4))")
 	fname   = flag.String("fname", "yeetfile.js", "filename for the yeetfile")
 	version = flag.Bool("version", false, "if set, print version of yeet and exit")
 )
+
+func configFileLocation() string {
+	dir, err := os.UserConfigDir()
+	if err != nil {
+		//ln.Error(context.Background(), err, ln.Debug("can't read config dir"))
+		return ""
+	}
+
+	dir = filepath.Join(dir, "techaro.lol", "yeet")
+	os.MkdirAll(dir, 0700)
+
+	return filepath.Join(dir, filepath.Base(os.Args[0])+".config")
+}
 
 func runcmd(cmdName string, args ...string) string {
 	ctx := context.Background()
@@ -100,6 +116,12 @@ func gitVersion() string {
 }
 
 func main() {
+	flag.Parse()
+	ctx := context.Background()
+
+	if *config != "" {
+		flagconfyg.CmdParse(ctx, *config)
+	}
 	flag.Parse()
 
 	if *version {

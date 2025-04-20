@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## v0.0.8
+
+- Add configuration via confyg for package signing
 - Added installation instructions to the `README.md`
 - Set mtime for deb/rpm package files to unix time 0.
 

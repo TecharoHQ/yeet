@@ -6,8 +6,8 @@ import (
 	"bytes"
 	"context"
 	"flag"
-	"io/ioutil"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/TecharoHQ/yeet/internal/confyg"
@@ -15,7 +15,7 @@ import (
 
 // CmdParse is a quick wrapper for command usage. It explodes on errors.
 func CmdParse(ctx context.Context, path string) {
-	data, err := ioutil.ReadFile(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return
 	}

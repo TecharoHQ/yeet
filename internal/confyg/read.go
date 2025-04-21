@@ -117,7 +117,6 @@ func (x *Line) Span() (start, end Position) {
 //		"x"
 //		"y"
 //	)
-//
 type LineBlock struct {
 	Comments
 	Start  Position
@@ -163,7 +162,6 @@ type input struct {
 	lastToken string    // most recently returned token, for error messages
 	pos       Position  // current input position
 	comments  []Comment // accumulated comments
-	endRule   int       // position of end of current rule
 
 	// Parser state.
 	file       *FileSyntax // returned top-level syntax tree

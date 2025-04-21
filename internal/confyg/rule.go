@@ -8,7 +8,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -51,25 +50,4 @@ func Parse(file string, data []byte, r Reader, al Allower) (*FileSyntax, error) 
 		return nil, errors.New(strings.TrimRight(errs.String(), "\n"))
 	}
 	return fs, nil
-}
-
-func isDirectoryPath(ns string) bool {
-	// Because go.mod files can move from one system to another,
-	// we check all known path syntaxes, both Unix and Windows.
-	return strings.HasPrefix(ns, "./") || strings.HasPrefix(ns, "../") || strings.HasPrefix(ns, "/") ||
-		strings.HasPrefix(ns, `.\`) || strings.HasPrefix(ns, `..\`) || strings.HasPrefix(ns, `\`) ||
-		len(ns) >= 2 && ('A' <= ns[0] && ns[0] <= 'Z' || 'a' <= ns[0] && ns[0] <= 'z') && ns[1] == ':'
-}
-
-func isString(s string) bool {
-	return s != "" && s[0] == '"'
-}
-
-func parseString(s *string) (string, error) {
-	t, err := strconv.Unquote(*s)
-	if err != nil {
-		return "", err
-	}
-	*s = strconv.Quote(t)
-	return t, nil
 }

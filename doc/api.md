@@ -116,6 +116,27 @@ Usage:
 const version = git.tag();
 ```
 
+## `gitea`
+
+Helpers for integrating with Gitea servers.
+
+### `gitea.uploadPackage`
+
+Uploads a binary package to Gitea, silently failing if the package is not a `.deb` or `.rpm` file. Gitea configuration is done with flags or the configuration file.
+
+Usage:
+
+`gitea.uploadPackage(owner, distro, component, fname)`
+
+```js
+gitea.uploadPackage(
+  "Techaro",
+  "yeet",
+  "unstable",
+  "./var/yeet-0.0.8.x86_64.rpm"
+);
+```
+
 ## `go`
 
 Helpers for the Go programming language.

@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test": "go test ./...",
-    "release": "git push origin main:release"
+    "release": "gh workflow run 'Cut Release'"
   },
   "repository": {
     "type": "git",

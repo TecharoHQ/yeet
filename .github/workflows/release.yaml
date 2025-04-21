@@ -11,7 +11,7 @@ jobs:
       - uses: actions/setup-node@v4
       - name: release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TECHAROHQ_HACK_WRITE_TOKEN }}
         run: |
           npm ci
           npx semantic-release --debug

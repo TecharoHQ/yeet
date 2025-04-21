@@ -2,7 +2,7 @@ name: Package builds (stable)
 
 on:
   release:
-    types: [published]
+    types: [created]
 
 permissions:
   contents: write

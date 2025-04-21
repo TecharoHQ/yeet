@@ -6,7 +6,8 @@
     "doc": "doc"
   },
   "scripts": {
-    "test": "go test ./..."
+    "test": "go test ./...",
+    "release": "git push origin main:release"
   },
   "repository": {
     "type": "git",

@@ -4,6 +4,17 @@
 ### Bug Fixes
 
 * automated release management ([d0efd92](https://github.com/TecharoHQ/yeet/commit/d0efd92f1bb77d2dc8f353dc793c8505e1ee7ddb))
+* dispatch releases on main branch ([c1ce6db](https://github.com/TecharoHQ/yeet/commit/c1ce6db03f24e1a8288ae908bd276483933b4327))
+* fix release flow? ([d4093e7](https://github.com/TecharoHQ/yeet/commit/d4093e77e7d122f27256b87bdc616884348d0752))
+* hack a write token ([d57be0e](https://github.com/TecharoHQ/yeet/commit/d57be0e64ceb6a376578e27421881ae0d0f9e8ed))
+* make stable package builds trigger on created ([c4c1955](https://github.com/TecharoHQ/yeet/commit/c4c1955db87004a5e4ab03e2452694439b17a203))
+
+## [0.0.10](https://github.com/TecharoHQ/yeet/compare/v0.0.9...v0.0.10) (2025-04-21)
+
+
+### Bug Fixes
+
+* automated release management ([d0efd92](https://github.com/TecharoHQ/yeet/commit/d0efd92f1bb77d2dc8f353dc793c8505e1ee7ddb))
 
 # Changelog
 

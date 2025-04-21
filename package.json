@@ -21,7 +21,7 @@
   "homepage": "https://github.com/TecharoHQ/yeet#readme",
   "release": {
     "branches": [
-      "release"
+      "main"
     ],
     "plugins": [
       "@semantic-release/commit-analyzer",

@@ -1,3 +1,10 @@
+## [0.0.10](https://github.com/TecharoHQ/yeet/compare/v0.0.9...v0.0.10) (2025-04-21)
+
+
+### Bug Fixes
+
+* automated release management ([d0efd92](https://github.com/TecharoHQ/yeet/commit/d0efd92f1bb77d2dc8f353dc793c8505e1ee7ddb))
+
 # Changelog
 
 All notable changes to this project will be documented in this file.

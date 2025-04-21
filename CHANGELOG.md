@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/TecharoHQ/yeet/compare/v0.0.10...v0.1.0) (2025-04-21)
+
+
+### Features
+
+* **internal:** add --force-git-version flag to override git tag logic ([5f09e47](https://github.com/TecharoHQ/yeet/commit/5f09e4734b838bfcb3ffd99671f6aa280ea81e47))
+
 ## [0.0.10](https://github.com/TecharoHQ/yeet/compare/v0.0.9...v0.0.10) (2025-04-21)
 
 

@@ -27,6 +27,18 @@
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       [
+        "@semantic-release/exec",
+        {
+          "verifyReleaseCmd": "echo ${nextRelease.version} > .VERSION"
+        }
+      ],
+      [
+        "@semantic-release/exec",
+        {
+          "verifyReleaseCmd": "go run ./cmd/yeet --force-git-version=$(cat .VERSION)"
+        }
+      ],
+      [
         "@semantic-release/github",
         {
           "assets": [
@@ -63,5 +75,8 @@
     "@semantic-release/github": "^11.0.1",
     "@semantic-release/release-notes-generator": "^14.0.3",
     "semantic-release": "^24.2.3"
+  },
+  "dependencies": {
+    "@semantic-release/exec": "^7.0.3"
   }
 }

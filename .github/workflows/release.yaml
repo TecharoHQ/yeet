@@ -49,11 +49,7 @@ jobs:
         key: ${{ runner.os }}-golang-${{ hashFiles('**/go.sum') }}
         restore-keys: |
           ${{ runner.os }}-golang-
-
-    - name: Build Packages
-      run: |
-        go run ./cmd/yeet
-
+          
     - uses: actions/setup-node@v4
     - name: release
       env:

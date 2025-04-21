@@ -64,7 +64,7 @@ func Output(ctx context.Context, cmd string, args ...string) (string, error) {
 
 // GitTag returns the curreng git tag.
 func GitTag(ctx context.Context) (string, error) {
-	s, err := Output(ctx, "git", "describe", "--tags")
+	s, err := Output(ctx, "git", "describe", "--tags", "--dirty")
 	if err != nil {
 		ee, ok := errors.Cause(err).(*exec.ExitError)
 		if ok && ee.Exited() {

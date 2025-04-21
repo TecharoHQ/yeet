@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"log/slog"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -15,6 +16,7 @@ import (
 	"al.essio.dev/pkg/shellescape"
 	yeetver "github.com/TecharoHQ/yeet"
 	"github.com/TecharoHQ/yeet/internal/confyg/flagconfyg"
+	"github.com/TecharoHQ/yeet/internal/gitea"
 	"github.com/TecharoHQ/yeet/internal/mkdeb"
 	"github.com/TecharoHQ/yeet/internal/mkrpm"
 	"github.com/TecharoHQ/yeet/internal/mktarball"
@@ -174,6 +176,14 @@ func main() {
 			return runcmd("git", "rev-parse", "--show-toplevel")
 		},
 		"tag": gitVersion,
+	})
+
+	vm.Set("gitea", map[string]any{
+		"uploadPackage": func(owner, distro, component, fname string) {
+			if err := gitea.UploadPackage(ctx, http.DefaultClient, owner, distro, component, fname); err != nil {
+				panic(err)
+			}
+		},
 	})
 
 	vm.Set("go", map[string]any{

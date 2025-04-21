@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Enable Gitea package uploading
+
 ## v0.0.8
 
 - Add configuration via confyg for package signing

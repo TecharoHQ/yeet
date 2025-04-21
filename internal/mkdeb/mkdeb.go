@@ -176,5 +176,5 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 
 	slog.Info("built package", "name", p.Name, "arch", p.Goarch, "version", p.Version, "path", fout.Name())
 
-	return foutpath, err
+	return fout.Name(), err
 }

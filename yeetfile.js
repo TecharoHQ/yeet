@@ -1,21 +1,31 @@
+const pkgs = [];
+
 ["amd64", "arm64"].forEach(goarch =>
-    [deb, rpm, tarball].forEach(method => method.build({
-        name: "yeet",
-        description: "Yeet out scripts with maximum haste!",
-        homepage: "https://techaro.lol",
-        license: "MIT",
-        goarch,
+    [deb, rpm, tarball].forEach(method => {
+        pkgs.push(method.build({
+            name: "yeet",
+            description: "Yeet out scripts with maximum haste!",
+            homepage: "https://techaro.lol",
+            license: "MIT",
+            goarch,
 
-        documentation: {
-            "README.md": "README.md",
-            "doc/api.md": "api.md",
-        },
+            documentation: {
+                "README.md": "README.md",
+                "doc/api.md": "api.md",
+            },
 
-        build: ({ bin }) => {
-            go.build("-o", `${bin}/yeet`, "./cmd/yeet");
-        },
-    }))
+            build: ({ bin }) => {
+                go.build("-o", `${bin}/yeet`, "./cmd/yeet");
+            },
+        }));
+    })
 );
+
+log.println(git.tag());
+
+pkgs.map(pkg => {
+    gitea.uploadPackage("Techaro", "yeet", "unstable", pkg);
+})
 
 tarball.build({
     name: "yeet-src-vendor",

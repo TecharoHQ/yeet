@@ -41,12 +41,15 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 	defer os.RemoveAll(dir)
 	os.MkdirAll(dir, 0755)
 
+	cgoEnabled := os.Getenv("CGO_ENABLED")
 	defer func() {
 		os.Setenv("GOARCH", runtime.GOARCH)
 		os.Setenv("GOOS", runtime.GOOS)
+		os.Setenv("CGO_ENABLED", cgoEnabled)
 	}()
 	os.Setenv("GOARCH", p.Goarch)
 	os.Setenv("GOOS", "linux")
+	os.Setenv("CGO_ENABLED", "0")
 
 	p.Build(pkgmeta.BuildInput{
 		Output:  dir,

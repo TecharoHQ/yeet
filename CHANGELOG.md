@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/TecharoHQ/yeet/compare/v0.1.0...v0.1.1) (2025-04-22)
+
+
+### Bug Fixes
+
+* **internal/mkdeb:** set CGO_ENABLED=0 ([#13](https://github.com/TecharoHQ/yeet/issues/13)) ([5a90b17](https://github.com/TecharoHQ/yeet/commit/5a90b1744ed47e09c6786419f5ecaf172a817606))
+
 # [0.1.0](https://github.com/TecharoHQ/yeet/compare/v0.0.10...v0.1.0) (2025-04-21)
 
 ### Features

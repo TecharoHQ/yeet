@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/TecharoHQ/yeet/compare/v0.2.0...v0.2.1) (2025-04-26)
+
+
+### Bug Fixes
+
+* make build errors fatal ([#18](https://github.com/TecharoHQ/yeet/issues/18)) ([7a467e7](https://github.com/TecharoHQ/yeet/commit/7a467e7d2b8dc4dd6eb704a9940adb1c9711859e))
+
 # [0.2.0](https://github.com/TecharoHQ/yeet/compare/v0.1.1...v0.2.0) (2025-04-26)
 
 

@@ -28,16 +28,17 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		}
 	}()
 
-	if _, err := semver.NewVersion(p.Version); err != nil {
-		return "", err
-	}
-
 	os.MkdirAll("./var", 0755)
 	os.WriteFile(filepath.Join("./var", ".gitignore"), []byte("*\n!.gitignore"), 0644)
 
 	if p.Version == "" {
 		p.Version = internal.GitVersion()
 	}
+
+	if _, err := semver.NewVersion(p.Version); err != nil {
+		return "", fmt.Errorf("invalid version %q: %w", p.Version, err)
+	}
+
 	if p.Platform == "" {
 		p.Platform = "linux"
 	}

@@ -56,9 +56,5 @@ func GitVersion() string {
 		panic(err)
 	}
 
-	if vers[0] == 'v' {
-		return vers[1:]
-	}
-
 	return vers
 }

@@ -15,7 +15,7 @@ jobs:
     #runs-on: alrest-techarohq
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
 
@@ -25,10 +25,10 @@ jobs:
           sudo apt-get install -y build-essential
 
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@8bcbfa880644de056b8e6bb1c583cb2f4362c6bb
 
       - name: Setup Homebrew cellar cache
-        uses: actions/cache@v4
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
         with:
           path: |
             /home/linuxbrew/.linuxbrew/Cellar
@@ -49,7 +49,7 @@ jobs:
           brew bundle
 
       - name: Setup Golang caches
-        uses: actions/cache@v4
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
         with:
           path: |
             ~/.cache/go-build
@@ -64,6 +64,6 @@ jobs:
       - name: Test
         run: make test
 
-      - uses: dominikh/staticcheck-action@v1
+      - uses: dominikh/staticcheck-action@fe1dd0c3658873b46f8c9bb3291096a617310ca6 # v1.3.1
         with:
           version: "latest"

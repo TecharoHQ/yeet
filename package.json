@@ -7,7 +7,9 @@
   },
   "scripts": {
     "test": "go test ./...",
-    "release": "gh workflow run 'Cut Release'"
+    "release": "gh workflow run 'Cut Release'",
+    "format": "prettier --write . && go tool goimports -w ./...",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,32 @@
     "url": "https://github.com/TecharoHQ/yeet/issues"
   },
   "homepage": "https://github.com/TecharoHQ/yeet#readme",
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "signed-off-by": [
+        2,
+        "always"
+      ]
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,ts,html,json,css,scss,md,mdx}": [
+      "prettier -w"
+    ],
+    "**/*.{go}": [
+      "go tool goimports -w"
+    ]
+  },
+  "prettier": {
+    "singleQuote": false,
+    "tabWidth": 2,
+    "semi": true,
+    "trailingComma": "all",
+    "printWidth": 80
+  },
   "release": {
     "branches": [
       "main"
@@ -69,11 +97,16 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^11.0.1",
     "@semantic-release/release-notes-generator": "^14.0.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1",
+    "prettier": "^3.5.3",
     "semantic-release": "^24.2.3"
   },
   "dependencies": {

@@ -1,3 +1,15 @@
+# [0.2.0](https://github.com/TecharoHQ/yeet/compare/v0.1.1...v0.2.0) (2025-04-26)
+
+
+### Bug Fixes
+
+* **internal:** fix version string mangling logic ([#16](https://github.com/TecharoHQ/yeet/issues/16)) ([56e6fa9](https://github.com/TecharoHQ/yeet/commit/56e6fa973d89aa220b0a712c59a751fa8ccfa49c))
+
+
+### Features
+
+* enforce semver in package versions ([#17](https://github.com/TecharoHQ/yeet/issues/17)) ([178f179](https://github.com/TecharoHQ/yeet/commit/178f17969e17eaf26eb28b9c93a6c24600b5c98c))
+
 ## [0.1.1](https://github.com/TecharoHQ/yeet/compare/v0.1.0...v0.1.1) (2025-04-22)
 
 ### Bug Fixes

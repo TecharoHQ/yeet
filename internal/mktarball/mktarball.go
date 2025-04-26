@@ -31,8 +31,8 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		}
 	}()
 
-	os.MkdirAll("./var", 0755)
-	os.WriteFile(filepath.Join("./var", ".gitignore"), []byte("*\n!.gitignore"), 0644)
+	os.MkdirAll(*internal.PackageDestDir, 0755)
+	os.WriteFile(filepath.Join(*internal.PackageDestDir, ".gitignore"), []byte("*\n!.gitignore"), 0644)
 
 	if p.Version == "" {
 		p.Version = internal.GitVersion()
@@ -60,7 +60,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 	pkgDir := filepath.Join(dir, folderName)
 	os.MkdirAll(pkgDir, 0755)
 
-	fname := filepath.Join("var", folderName+".tar.gz")
+	fname := filepath.Join(*internal.PackageDestDir, folderName+".tar.gz")
 	fout, err := os.Create(fname)
 	if err != nil {
 		return "", fmt.Errorf("can't make output file: %w", err)

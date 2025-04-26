@@ -6,6 +6,7 @@ import (
 	"runtime"
 	"testing"
 
+	"github.com/TecharoHQ/yeet/internal"
 	"github.com/TecharoHQ/yeet/internal/pkgmeta"
 	"github.com/TecharoHQ/yeet/internal/yeet"
 )
@@ -14,6 +15,9 @@ type Impl func(p pkgmeta.Package) (string, error)
 
 func BuildHello(t *testing.T, build Impl, version string, fatal bool) string {
 	t.Helper()
+
+	dir := t.TempDir()
+	internal.PackageDestDir = &dir
 
 	p := pkgmeta.Package{
 		Name:        "hello",

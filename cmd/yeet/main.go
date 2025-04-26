@@ -114,7 +114,7 @@ func gitVersion() string {
 	if err != nil {
 		panic(err)
 	}
-	return vers[1:]
+	return vers
 }
 
 func main() {
@@ -137,6 +137,7 @@ func main() {
 	defer func() {
 		if r := recover(); r != nil {
 			slog.Error("error in JS", "err", r)
+			os.Exit(1)
 		}
 	}()
 

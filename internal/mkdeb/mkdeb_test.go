@@ -1,0 +1,22 @@
+package mkdeb
+
+import (
+	"testing"
+
+	"github.com/TecharoHQ/yeet/internal/yeettest"
+	"pault.ag/go/debian/deb"
+)
+
+func TestBuild(t *testing.T) {
+	fname := yeettest.BuildHello(t, Build)
+
+	debFile, close, err := deb.LoadFile(fname)
+	if err != nil {
+		t.Fatalf("failed to load deb file: %v", err)
+	}
+	defer close()
+
+	if debFile.Control.Version.Empty() {
+		t.Error("version is empty")
+	}
+}

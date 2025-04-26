@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Masterminds/semver/v3"
 	"github.com/pkg/errors"
 )
 
@@ -83,7 +84,13 @@ func GitTag(ctx context.Context) (string, error) {
 		return "", err
 	}
 
-	return strings.TrimSuffix(s, "\n"), nil
+	ver, err := semver.NewVersion(strings.TrimSuffix(s, "\n"))
+	if err != nil {
+		// probably no git tag
+		return "devel", nil
+	}
+
+	return ver.String(), nil
 }
 
 // DockerTag tags a docker image

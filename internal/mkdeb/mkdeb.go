@@ -8,6 +8,7 @@ import (
 	"runtime"
 	"time"
 
+	"github.com/Masterminds/semver/v3"
 	"github.com/TecharoHQ/yeet/internal"
 	"github.com/TecharoHQ/yeet/internal/pkgmeta"
 	"github.com/goreleaser/nfpm/v2"
@@ -26,6 +27,10 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			}
 		}
 	}()
+
+	if _, err := semver.NewVersion(p.Version); err != nil {
+		return "", err
+	}
 
 	os.MkdirAll("./var", 0755)
 	os.WriteFile(filepath.Join("./var", ".gitignore"), []byte("*\n!.gitignore"), 0644)

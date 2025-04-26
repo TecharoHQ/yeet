@@ -2,6 +2,7 @@ package yeet
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log/slog"
 	"os"
@@ -10,6 +11,10 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+)
+
+var (
+	ForceGitVersion = flag.String("force-git-version", os.Getenv("FORCE_GIT_VERSION"), "if set, force git.tag to return this value")
 )
 
 // current working directory and date:time tag of app boot (useful for tagging slugs)
@@ -64,6 +69,10 @@ func Output(ctx context.Context, cmd string, args ...string) (string, error) {
 
 // GitTag returns the curreng git tag.
 func GitTag(ctx context.Context) (string, error) {
+	if *ForceGitVersion != "" {
+		return *ForceGitVersion, nil
+	}
+
 	s, err := Output(ctx, "git", "describe", "--tags", "--dirty")
 	if err != nil {
 		ee, ok := errors.Cause(err).(*exec.ExitError)

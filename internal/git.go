@@ -11,12 +11,11 @@ import (
 )
 
 var (
-	ForceGitVersion = flag.String("force-git-version", os.Getenv("FORCE_GIT_VERSION"), "if set, force git.tag to return this value")
-	GPGKeyFile      = flag.String("gpg-key-file", gpgKeyFileLocation(), "GPG key file to sign the package")
-	GPGKeyID        = flag.String("gpg-key-id", "", "GPG key ID to sign the package")
-	GPGKeyPassword  = flag.String("gpg-key-password", "", "GPG key password to sign the package")
-	UserName        = flag.String("git-user-name", GitUserName(), "user name in Git")
-	UserEmail       = flag.String("git-user-email", GitUserEmail(), "user email in Git")
+	GPGKeyFile     = flag.String("gpg-key-file", gpgKeyFileLocation(), "GPG key file to sign the package")
+	GPGKeyID       = flag.String("gpg-key-id", "", "GPG key ID to sign the package")
+	GPGKeyPassword = flag.String("gpg-key-password", "", "GPG key password to sign the package")
+	UserName       = flag.String("git-user-name", GitUserName(), "user name in Git")
+	UserEmail      = flag.String("git-user-email", GitUserEmail(), "user email in Git")
 )
 
 const (
@@ -52,13 +51,14 @@ func GitUserEmail() string {
 }
 
 func GitVersion() string {
-	if *ForceGitVersion != "" {
-		return *ForceGitVersion
-	}
-
 	vers, err := yeet.GitTag(context.Background())
 	if err != nil {
 		panic(err)
 	}
-	return vers[1:]
+
+	if vers[0] == 'v' {
+		return vers[1:]
+	}
+
+	return vers
 }

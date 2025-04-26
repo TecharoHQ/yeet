@@ -44,6 +44,16 @@ To install `yeet`, use the following command:
 go install github.com/TecharoHQ/yeet/cmd/yeet@latest
 ```
 
+## Development
+
+To get started developing for `yeet`, install Go and Node from [Homebrew](https://brew.sh).
+
+```text
+brew bundle
+npm ci
+npm run prepare
+```
+
 ## Support
 
 For support, please [subscribe to me on Patreon](https://patreon.com/cadey) and ask in the `#yeet` channel in the patron Discord.

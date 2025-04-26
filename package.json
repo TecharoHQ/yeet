@@ -23,7 +23,13 @@
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
-    ]
+    ],
+    "rules": {
+      "signed-off-by": [
+        2,
+        "always"
+      ]
+    }
   },
   "lint-staged": {
     "**/*.{js,ts,html,json,css,scss,md,mdx}": [

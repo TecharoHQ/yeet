@@ -25,6 +25,11 @@ func TestGitVersion(t *testing.T) {
 			input: "1.0.0",
 			want:  "1.0.0",
 		},
+		{
+			name:  "with version with v and -",
+			input: "v1.0.0-abc123",
+			want:  "1.0.0-abc123",
+		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
 			yeet.ForceGitVersion = &tt.input

@@ -23,8 +23,6 @@ const pkgs = [];
   }),
 );
 
-log.println(git.tag());
-
 pkgs.map((pkg) => {
   gitea.uploadPackage("Techaro", "yeet", "unstable", pkg);
 });

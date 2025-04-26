@@ -70,11 +70,7 @@ func Output(ctx context.Context, cmd string, args ...string) (string, error) {
 
 // GitTag returns the curreng git tag.
 func GitTag(ctx context.Context) (string, error) {
-	if *ForceGitVersion != "" {
-		return *ForceGitVersion, nil
-	}
-
-	s, err := Output(ctx, "git", "describe", "--tags", "--dirty")
+	s, err := Output(ctx, "git", "describe", "--tags", "--dirty=-dev", "--always")
 	if err != nil {
 		ee, ok := errors.Cause(err).(*exec.ExitError)
 		if ok && ee.Exited() {
@@ -82,6 +78,10 @@ func GitTag(ctx context.Context) (string, error) {
 			return "dev", nil
 		}
 		return "", err
+	}
+
+	if *ForceGitVersion != "" {
+		s = *ForceGitVersion
 	}
 
 	ver, err := semver.NewVersion(strings.TrimSuffix(s, "\n"))

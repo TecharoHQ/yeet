@@ -12,12 +12,12 @@ import (
 
 type Impl func(p pkgmeta.Package) (string, error)
 
-func BuildHello(t *testing.T, build Impl) string {
+func BuildHello(t *testing.T, build Impl, version string, fatal bool) string {
 	t.Helper()
 
 	p := pkgmeta.Package{
 		Name:        "hello",
-		Version:     "1.0.0",
+		Version:     version,
 		Description: "Hello world",
 		Homepage:    "https://example.com",
 		License:     "MIT",
@@ -29,9 +29,18 @@ func BuildHello(t *testing.T, build Impl) string {
 	}
 
 	foutpath, err := build(p)
-	if err != nil {
-		t.Fatalf("Build() error = %v", err)
+	switch fatal {
+	case true:
+		if err != nil {
+			t.Fatalf("Build() error = %v", err)
+		}
+	case false:
+		if err != nil {
+			t.Logf("Build() error = %v", err)
+		}
+		return ""
 	}
+
 	if foutpath == "" {
 		t.Fatal("Build() returned empty path")
 	}

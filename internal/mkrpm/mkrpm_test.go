@@ -10,7 +10,7 @@ import (
 )
 
 func TestBuild(t *testing.T) {
-	fname := yeettest.BuildHello(t, Build)
+	fname := yeettest.BuildHello(t, Build, "1.0.0", true)
 
 	pkg, err := rpm.Open(fname)
 	if err != nil {
@@ -30,4 +30,8 @@ func TestBuild(t *testing.T) {
 		t.Fatalf("failed to open rpm file: %v", err)
 	}
 	defer fin.Close()
+}
+
+func TestBuildError(t *testing.T) {
+	yeettest.BuildHello(t, Build, ".0.0", false)
 }

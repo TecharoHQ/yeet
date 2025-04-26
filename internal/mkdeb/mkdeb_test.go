@@ -8,7 +8,7 @@ import (
 )
 
 func TestBuild(t *testing.T) {
-	fname := yeettest.BuildHello(t, Build)
+	fname := yeettest.BuildHello(t, Build, "1.0.0", true)
 
 	debFile, close, err := deb.LoadFile(fname)
 	if err != nil {
@@ -19,4 +19,8 @@ func TestBuild(t *testing.T) {
 	if debFile.Control.Version.Empty() {
 		t.Error("version is empty")
 	}
+}
+
+func TestBuildError(t *testing.T) {
+	yeettest.BuildHello(t, Build, ".0.0", false)
 }

@@ -40,7 +40,7 @@ Usage:
     build: ({ bin }) => {
       go.build("-o", `${bin}/yeet`, "./cmd/yeet");
     },
-  })
+  }),
 );
 ```
 
@@ -133,7 +133,7 @@ gitea.uploadPackage(
   "Techaro",
   "yeet",
   "unstable",
-  "./var/yeet-0.0.8.x86_64.rpm"
+  "./var/yeet-0.0.8.x86_64.rpm",
 );
 ```
 
@@ -207,7 +207,7 @@ Usage:
     build: ({ bin }) => {
       go.build("-o", `${bin}/yeet`, "./cmd/yeet");
     },
-  })
+  }),
 );
 ```
 
@@ -260,7 +260,7 @@ yeet.run(
   "protoc",
   "--proto-path=.",
   `--proto-path=${git.repoRoot()}/proto`,
-  "foo.proto"
+  "foo.proto",
 );
 ```
 
@@ -297,8 +297,8 @@ When using the `deb.build`, `rpm.build`, or `tarball.build` functions, you can c
       build: ({ bin }) => {
         go.build("-o", `${bin}/yeet`, "./cmd/yeet");
       },
-    })
-  )
+    }),
+  ),
 );
 ```
 

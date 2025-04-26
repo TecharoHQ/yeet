@@ -8,6 +8,7 @@
   "scripts": {
     "test": "go test ./...",
     "release": "gh workflow run 'Cut Release'",
+    "format": "prettier --write . && go tool goimports -w ./...",
     "prepare": "husky"
   },
   "repository": {
@@ -38,6 +39,13 @@
     "**/*.{go}": [
       "go tool goimports -w"
     ]
+  },
+  "prettier": {
+    "singleQuote": false,
+    "tabWidth": 2,
+    "semi": true,
+    "trailingComma": "all",
+    "printWidth": 80
   },
   "release": {
     "branches": [

@@ -59,7 +59,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 	p.Build(pkgmeta.BuildInput{
 		Output:  dir,
 		Bin:     filepath.Join(dir, "usr", "bin"),
-		Doc:     filepath.Join(dir, "usr", "share", "doc"),
+		Doc:     filepath.Join(dir, "usr", "share", "doc", p.Name),
 		Etc:     filepath.Join(dir, "etc", p.Name),
 		Man:     filepath.Join(dir, "usr", "share", "man"),
 		Systemd: filepath.Join(dir, "usr", "lib", "systemd", "system"),

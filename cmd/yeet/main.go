@@ -127,7 +127,7 @@ func main() {
 	flag.Parse()
 
 	if *version {
-		fmt.Printf("yeet version %s\n", yeetver.Version)
+		fmt.Printf("yeet version %s, built via %s\n", yeetver.Version, yeetver.BuildMethod)
 		return
 	}
 
@@ -156,6 +156,7 @@ func main() {
 			}
 			return foutpath
 		},
+		"name": "debian",
 	})
 
 	vm.Set("docker", map[string]any{
@@ -207,6 +208,7 @@ func main() {
 			}
 			return foutpath
 		},
+		"name": "rpm",
 	})
 
 	vm.Set("tarball", map[string]any{
@@ -217,6 +219,7 @@ func main() {
 			}
 			return foutpath
 		},
+		"name": "tarball",
 	})
 
 	vm.Set("yeet", map[string]any{

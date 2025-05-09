@@ -16,7 +16,7 @@ const pkgs = [];
         },
 
         build: ({ bin }) => {
-          go.build("-o", `${bin}/yeet`, "./cmd/yeet");
+          $`go build -o ${bin}/yeet -ldflags '-s -w -extldflags "-static" -X "github.com/TecharoHQ/yeet.Version=${git.tag()}" -X "github.com/TecharoHQ/yeet.BuildMethod=${method.name}"' ./cmd/yeet`;
         },
       }),
     );

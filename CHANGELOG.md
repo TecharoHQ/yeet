@@ -1,3 +1,10 @@
+## [0.2.3](https://github.com/TecharoHQ/yeet/compare/v0.2.2...v0.2.3) (2025-05-09)
+
+
+### Bug Fixes
+
+* **cmd/yeet:** show build method in --version ([#20](https://github.com/TecharoHQ/yeet/issues/20)) ([ca06ce7](https://github.com/TecharoHQ/yeet/commit/ca06ce7d9247e1d18b8be346e191404e652bd6f9))
+
 ## [0.2.2](https://github.com/TecharoHQ/yeet/compare/v0.2.1...v0.2.2) (2025-05-02)
 
 

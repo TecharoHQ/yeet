@@ -57,3 +57,15 @@ npm run prepare
 ## Support
 
 For support, please [subscribe to me on Patreon](https://patreon.com/cadey) and ask in the `#yeet` channel in the patron Discord.
+
+## Packaging Status
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/yeet-js-build-tool.svg?columns=3)](https://repology.org/project/yeet-js-build-tool/versions)
+
+## Contributors
+
+<a href="https://github.com/TecharoHQ/yeet/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=TecharoHQ/yeet" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).

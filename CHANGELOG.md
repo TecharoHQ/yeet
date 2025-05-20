@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/TecharoHQ/yeet/compare/v0.2.3...v0.3.0) (2025-05-20)
+
+
+### Features
+
+* **confyg:** export package publicly ([7abba3a](https://github.com/TecharoHQ/yeet/commit/7abba3a1ddcdd9eca4776a80d98851dcfc5005fc))
+
 ## [0.2.3](https://github.com/TecharoHQ/yeet/compare/v0.2.2...v0.2.3) (2025-05-09)
 
 

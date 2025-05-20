@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/TecharoHQ/yeet/internal/confyg"
+	"github.com/TecharoHQ/yeet/confyg"
 )
 
 // CmdParse is a quick wrapper for command usage. It explodes on errors.

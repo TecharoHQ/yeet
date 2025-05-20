@@ -15,7 +15,7 @@ import (
 
 	"al.essio.dev/pkg/shellescape"
 	yeetver "github.com/TecharoHQ/yeet"
-	"github.com/TecharoHQ/yeet/internal/confyg/flagconfyg"
+	"github.com/TecharoHQ/yeet/confyg/flagconfyg"
 	"github.com/TecharoHQ/yeet/internal/gitea"
 	"github.com/TecharoHQ/yeet/internal/mkdeb"
 	"github.com/TecharoHQ/yeet/internal/mkrpm"

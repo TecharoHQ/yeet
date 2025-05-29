@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/TecharoHQ/yeet/compare/v0.3.0...v0.4.0) (2025-05-29)
+
+
+### Features
+
+* **yeetfile:** ppc64le builds ([bbc1e38](https://github.com/TecharoHQ/yeet/commit/bbc1e384f82724660365a4525262180241ec3f06))
+
 # [0.3.0](https://github.com/TecharoHQ/yeet/compare/v0.2.3...v0.3.0) (2025-05-20)
 
 

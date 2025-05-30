@@ -139,6 +139,15 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		return "", fmt.Errorf("mkdeb: can't walk output directory: %w", err)
 	}
 
+	contents, err = files.PrepareForPackager(contents, 0o002, "deb", true, time.Unix(0, 0))
+	if err != nil {
+		return "", fmt.Errorf("mkdeb: can't prepare for packager: %w", err)
+	}
+
+	for _, content := range contents {
+		content.FileInfo.MTime = time.Unix(0, 0)
+	}
+
 	info := nfpm.WithDefaults(&nfpm.Info{
 		Name:        p.Name,
 		Version:     p.Version,
@@ -148,6 +157,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		Maintainer:  fmt.Sprintf("%s <%s>", *internal.UserName, *internal.UserEmail),
 		Homepage:    p.Homepage,
 		License:     p.License,
+		MTime:       time.Unix(0, 0),
 		Overridables: nfpm.Overridables{
 			Contents:   contents,
 			Depends:    p.Depends,

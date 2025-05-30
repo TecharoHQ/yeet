@@ -13,6 +13,7 @@ import (
 	"github.com/Masterminds/semver/v3"
 	"github.com/TecharoHQ/yeet/internal"
 	"github.com/TecharoHQ/yeet/internal/pkgmeta"
+	"github.com/TecharoHQ/yeet/internal/vfs"
 )
 
 func defaultFname(p pkgmeta.Package) string {
@@ -122,7 +123,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		return "", fmt.Errorf("can't open root FS %s: %w", dir, err)
 	}
 
-	if err := tw.AddFS(root.FS()); err != nil {
+	if err := tw.AddFS(vfs.MtimeZeroFS{FS: root.FS()}); err != nil {
 		return "", fmt.Errorf("can't copy built files to tarball: %w", err)
 	}
 

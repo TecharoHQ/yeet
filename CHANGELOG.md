@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/TecharoHQ/yeet/compare/v0.4.0...v0.5.0) (2025-05-30)
+
+
+### Features
+
+* **deb,rpm,tarball:** implement reproducible builds ([49686d8](https://github.com/TecharoHQ/yeet/commit/49686d84f20a6df92378139a6705504621f7c9d9))
+
 # [0.4.0](https://github.com/TecharoHQ/yeet/compare/v0.3.0...v0.4.0) (2025-05-29)
 
 

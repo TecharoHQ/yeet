@@ -27,10 +27,6 @@ const pkgs = [];
   }),
 );
 
-pkgs.map((pkg) => {
-  gitea.uploadPackage("Techaro", "yeet", "unstable", pkg);
-});
-
 tarball.build({
   name: "yeet-src-vendor",
   license: "MIT",

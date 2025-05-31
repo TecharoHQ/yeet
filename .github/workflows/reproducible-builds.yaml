@@ -48,8 +48,8 @@ jobs:
       - name: Build yeet packages twice
         run: |
           mkdir -p ./var/pass1 ./var/pass2 ./var/output
-          go run ./cmd/yeet --package-dest-dir ./var/pass1
-          go run ./cmd/yeet --package-dest-dir ./var/pass2
+          go run ./cmd/yeet --force-git-version 1.0.0 --package-dest-dir ./var/pass1
+          go run ./cmd/yeet --force-git-version 1.0.0 --package-dest-dir ./var/pass2
 
           for file in ./var/pass1/*; do
             diffoscope --text "${file/pass1/output}.txt" $file "${file/pass1/pass2}";

@@ -76,6 +76,8 @@ func dockerpush(image string) {
 
 func buildShellCommand(literals []string, exprs ...any) string {
 	var sb strings.Builder
+	fmt.Fprintln(&sb, "set -e")
+
 	for i, value := range exprs {
 		sb.WriteString(literals[i])
 		sb.WriteString(shellescape.Quote(fmt.Sprint(value)))

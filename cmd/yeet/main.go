@@ -85,7 +85,7 @@ func buildShellCommand(literals []string, exprs ...any) string {
 }
 
 func runShellCommand(literals []string, exprs ...any) string {
-	shPath, err := exec.LookPath("bash")
+	shPath, err := exec.LookPath("sh")
 	if err != nil {
 		panic(err)
 	}

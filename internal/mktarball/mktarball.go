@@ -93,7 +93,9 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		Doc:     filepath.Join(pkgDir, "doc"),
 		Etc:     filepath.Join(pkgDir, "run"),
 		Man:     filepath.Join(pkgDir, "man"),
-		Systemd: filepath.Join(pkgDir, "run"),
+		Systemd: filepath.Join(pkgDir, "run", "systemd"),
+		Confd:   filepath.Join(pkgDir, "run", "openrc", "conf.d"),
+		Initd:   filepath.Join(pkgDir, "run", "openrc", "init.d"),
 	}
 
 	os.MkdirAll(bi.Doc, 0755)

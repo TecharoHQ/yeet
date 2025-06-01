@@ -1,4 +1,4 @@
-package mkrpm
+package mkapk
 
 import (
 	"fmt"
@@ -12,18 +12,18 @@ import (
 	"github.com/TecharoHQ/yeet/internal"
 	"github.com/TecharoHQ/yeet/internal/pkgmeta"
 	"github.com/goreleaser/nfpm/v2"
+	_ "github.com/goreleaser/nfpm/v2/apk"
 	"github.com/goreleaser/nfpm/v2/files"
-	_ "github.com/goreleaser/nfpm/v2/rpm"
 )
 
 func Build(p pkgmeta.Package) (foutpath string, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			if err, ok := r.(error); ok {
-				slog.Error("mkrpm: error while building", "err", err)
+				slog.Error("mkapk: error while building", "err", err)
 			} else {
 				err = fmt.Errorf("%v", r)
-				slog.Error("mkrpm: error while building", "err", err)
+				slog.Error("mkapk: error while building", "err", err)
 			}
 		}
 	}()
@@ -43,9 +43,9 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		p.Platform = "linux"
 	}
 
-	dir, err := os.MkdirTemp("", "yeet-mkrpm")
+	dir, err := os.MkdirTemp("", "yeet-mkapk")
 	if err != nil {
-		return "", fmt.Errorf("mkrpm: can't make temporary directory")
+		return "", fmt.Errorf("mkapk: can't make temporary directory")
 	}
 	defer os.RemoveAll(dir)
 	os.MkdirAll(dir, 0755)
@@ -67,16 +67,16 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 	defer os.RemoveAll(trashDir)
 
 	p.Build(pkgmeta.BuildInput{
-		Output:  dir,
-		Bin:     filepath.Join(dir, "usr", "bin"),
-		Doc:     filepath.Join(dir, "usr", "share", "doc", p.Name),
-		Etc:     filepath.Join(dir, "etc", p.Name),
-		Man:     filepath.Join(dir, "usr", "share", "man"),
-		Systemd: filepath.Join(dir, "usr", "lib", "systemd", "system"),
+		Output: dir,
+		Bin:    filepath.Join(dir, "usr", "bin"),
+		Doc:    filepath.Join(dir, "usr", "share", "doc", p.Name),
+		Etc:    filepath.Join(dir, "etc", p.Name),
+		Man:    filepath.Join(dir, "usr", "share", "man"),
+		Confd:  filepath.Join(dir, "etc", "conf.d"),
+		Initd:  filepath.Join(dir, "etc", "init.d"),
 
-		// We don't need OpenRC metadata in Red Hat packages
-		Confd: trashDir,
-		Initd: trashDir,
+		// We don't need Systemd metadata in Alpine packages
+		Systemd: trashDir,
 	})
 
 	var contents files.Contents
@@ -90,41 +90,41 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			Type:        files.TypeDir,
 			Destination: d,
 			FileInfo: &files.ContentFileInfo{
-				MTime: internal.SourceEpoch(),
+				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
 			},
 		})
 	}
 
-	for repoPath, rpmPath := range p.ConfigFiles {
+	for repoPath, apkPath := range p.ConfigFiles {
 		contents = append(contents, &files.Content{
 			Type:        files.TypeConfig,
 			Source:      repoPath,
-			Destination: rpmPath,
+			Destination: apkPath,
 			FileInfo: &files.ContentFileInfo{
 				Mode:  os.FileMode(0600),
-				MTime: internal.SourceEpoch(),
+				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
 			},
 		})
 	}
 
-	for repoPath, rpmPath := range p.Documentation {
-		contents = append(contents, &files.Content{
-			Type:        files.TypeRPMDoc,
-			Source:      repoPath,
-			Destination: filepath.Join("/usr/share/doc", p.Name, rpmPath),
-			FileInfo: &files.ContentFileInfo{
-				MTime: internal.SourceEpoch(),
-			},
-		})
-	}
-
-	for repoPath, rpmPath := range p.Files {
+	for repoPath, apkPath := range p.Documentation {
 		contents = append(contents, &files.Content{
 			Type:        files.TypeFile,
 			Source:      repoPath,
-			Destination: rpmPath,
+			Destination: filepath.Join("/usr/share/doc", p.Name, apkPath),
 			FileInfo: &files.ContentFileInfo{
-				MTime: internal.SourceEpoch(),
+				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
+			},
+		})
+	}
+
+	for repoPath, apkPath := range p.Files {
+		contents = append(contents, &files.Content{
+			Type:        files.TypeFile,
+			Source:      repoPath,
+			Destination: apkPath,
+			FileInfo: &files.ContentFileInfo{
+				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
 			},
 		})
 	}
@@ -143,22 +143,22 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			Source:      path,
 			Destination: path[len(dir)+1:],
 			FileInfo: &files.ContentFileInfo{
-				MTime: internal.SourceEpoch(),
+				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
 			},
 		})
 
 		return nil
 	}); err != nil {
-		return "", fmt.Errorf("mkrpm: can't walk output directory: %w", err)
+		return "", fmt.Errorf("mkapk: can't walk output directory: %w", err)
 	}
 
-	contents, err = files.PrepareForPackager(contents, 0o002, "rpm", true, time.Unix(0, 0))
+	contents, err = files.PrepareForPackager(contents, 0o002, "apk", true, time.Unix(0, 0))
 	if err != nil {
-		return "", fmt.Errorf("mkdeb: can't prepare for packager: %w", err)
+		return "", fmt.Errorf("mkapk: can't prepare for packager: %w", err)
 	}
 
 	for _, content := range contents {
-		content.FileInfo.MTime = internal.SourceEpoch()
+		content.FileInfo.MTime = time.Unix(0, 0)
 	}
 
 	info := nfpm.WithDefaults(&nfpm.Info{
@@ -170,7 +170,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		Maintainer:  fmt.Sprintf("%s <%s>", *internal.UserName, *internal.UserEmail),
 		Homepage:    p.Homepage,
 		License:     p.License,
-		MTime:       internal.SourceEpoch(),
+		MTime:       time.Unix(0, 0),
 		Overridables: nfpm.Overridables{
 			Contents:   contents,
 			Depends:    p.Depends,
@@ -180,29 +180,20 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		},
 	})
 
-	info.Overridables.RPM.Group = p.Group
-
-	if *internal.GPGKeyPassword != "" {
-		slog.Debug("using GPG key", "file", *internal.GPGKeyFile, "id", *internal.GPGKeyID, "password", *internal.GPGKeyPassword)
-		info.Overridables.RPM.Signature.KeyFile = *internal.GPGKeyFile
-		info.Overridables.RPM.Signature.KeyID = internal.GPGKeyID
-		info.Overridables.RPM.Signature.KeyPassphrase = *internal.GPGKeyPassword
-	}
-
-	pkg, err := nfpm.Get("rpm")
+	pkg, err := nfpm.Get("apk")
 	if err != nil {
-		return "", fmt.Errorf("mkrpm: can't get RPM packager: %w", err)
+		return "", fmt.Errorf("mkapk: can't get apk packager: %w", err)
 	}
 
 	foutpath = pkg.ConventionalFileName(info)
 	fout, err := os.Create(filepath.Join(*internal.PackageDestDir, foutpath))
 	if err != nil {
-		return "", fmt.Errorf("mkrpm: can't create output file: %w", err)
+		return "", fmt.Errorf("mkapk: can't create output file: %w", err)
 	}
 	defer fout.Close()
 
 	if err := pkg.Package(info, fout); err != nil {
-		return "", fmt.Errorf("mkrpm: can't build package: %w", err)
+		return "", fmt.Errorf("mkapk: can't build package: %w", err)
 	}
 
 	slog.Info("built package", "name", p.Name, "arch", p.Goarch, "version", p.Version, "path", fout.Name())

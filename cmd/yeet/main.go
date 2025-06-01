@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"flag"
 	"fmt"
@@ -8,7 +9,6 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -23,6 +23,8 @@ import (
 	"github.com/TecharoHQ/yeet/internal/pkgmeta"
 	"github.com/TecharoHQ/yeet/internal/yeet"
 	"github.com/dop251/goja"
+	"mvdan.cc/sh/v3/interp"
+	"mvdan.cc/sh/v3/syntax"
 )
 
 var (
@@ -84,21 +86,32 @@ func buildShellCommand(literals []string, exprs ...any) string {
 	return sb.String()
 }
 
-func runShellCommand(literals []string, exprs ...any) string {
-	shPath, err := exec.LookPath("sh")
+func runShellCommand(ctx context.Context, literals []string, exprs ...any) (string, error) {
+	src := buildShellCommand(literals, exprs...)
+
+	slog.Debug("running command", "src", src)
+
+	file, err := syntax.NewParser().Parse(strings.NewReader(src), "")
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 
-	cmd := buildShellCommand(literals, exprs...)
+	var buf bytes.Buffer
 
-	slog.Debug("running command", "cmd", cmd)
-	output, err := yeet.Output(context.Background(), shPath, "-c", cmd)
+	runner, err := interp.New(
+		interp.StdIO(nil, &buf, os.Stderr),
+	)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 
-	return output
+	if err := runner.Run(ctx, file); err != nil {
+		return "", err
+	}
+
+	slog.Debug("command output", "src", src, "output", buf.String())
+
+	return buf.String(), nil
 }
 
 func hostname() string {
@@ -146,7 +159,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	vm.Set("$", runShellCommand)
+	vm.Set("$", func(literals []string, exprs ...any) string {
+		result, err := runShellCommand(ctx, literals, exprs...)
+		if err != nil {
+			panic(err)
+		}
+		return result
+	})
 
 	vm.Set("deb", map[string]any{
 		"build": func(p pkgmeta.Package) string {

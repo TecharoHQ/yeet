@@ -1,3 +1,16 @@
+# [0.6.0](https://github.com/TecharoHQ/yeet/compare/v0.5.0...v0.6.0) (2025-06-01)
+
+
+### Bug Fixes
+
+* use sh instead of bash ([#27](https://github.com/TecharoHQ/yeet/issues/27)) ([2e169ef](https://github.com/TecharoHQ/yeet/commit/2e169efafec110d71c8fb596c0a163f902c6f757))
+
+
+### Features
+
+* support SOURCE_DATE_EPOCH ([#26](https://github.com/TecharoHQ/yeet/issues/26)) ([c01c3db](https://github.com/TecharoHQ/yeet/commit/c01c3db54cddbed5faf1f32a0993620c7aaade9b))
+* use mvdan.cc/sh/v3 instead of system sh ([#28](https://github.com/TecharoHQ/yeet/issues/28)) ([5459d92](https://github.com/TecharoHQ/yeet/commit/5459d922e1e3e0aaa3deef6cdf449c4cab3aeeea))
+
 # [0.5.0](https://github.com/TecharoHQ/yeet/compare/v0.4.0...v0.5.0) (2025-05-30)
 
 

@@ -123,7 +123,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		return "", fmt.Errorf("can't open root FS %s: %w", dir, err)
 	}
 
-	if err := tw.AddFS(vfs.MtimeZeroFS{FS: root.FS()}); err != nil {
+	if err := tw.AddFS(vfs.ModTimeFS{FS: root.FS(), Time: internal.SourceEpoch()}); err != nil {
 		return "", fmt.Errorf("can't copy built files to tarball: %w", err)
 	}
 

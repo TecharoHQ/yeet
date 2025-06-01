@@ -6,7 +6,6 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
-	"time"
 
 	"github.com/Masterminds/semver/v3"
 	"github.com/TecharoHQ/yeet/internal"
@@ -76,7 +75,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			Type:        files.TypeDir,
 			Destination: d,
 			FileInfo: &files.ContentFileInfo{
-				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
+				MTime: internal.SourceEpoch(),
 				Mode:  os.FileMode(0600),
 			},
 		})
@@ -89,7 +88,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			Destination: osPath,
 			FileInfo: &files.ContentFileInfo{
 				Mode:  os.FileMode(0600),
-				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
+				MTime: internal.SourceEpoch(),
 			},
 		})
 	}
@@ -100,7 +99,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			Source:      repoPath,
 			Destination: filepath.Join("/usr/share/doc", p.Name, rpmPath),
 			FileInfo: &files.ContentFileInfo{
-				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
+				MTime: internal.SourceEpoch(),
 			},
 		})
 	}
@@ -111,7 +110,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			Source:      repoPath,
 			Destination: rpmPath,
 			FileInfo: &files.ContentFileInfo{
-				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
+				MTime: internal.SourceEpoch(),
 			},
 		})
 	}
@@ -130,7 +129,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 			Source:      path,
 			Destination: path[len(dir)+1:],
 			FileInfo: &files.ContentFileInfo{
-				MTime: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
+				MTime: internal.SourceEpoch(),
 			},
 		})
 
@@ -139,13 +138,13 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		return "", fmt.Errorf("mkdeb: can't walk output directory: %w", err)
 	}
 
-	contents, err = files.PrepareForPackager(contents, 0o002, "deb", true, time.Unix(0, 0))
+	contents, err = files.PrepareForPackager(contents, 0o002, "deb", true, internal.SourceEpoch())
 	if err != nil {
 		return "", fmt.Errorf("mkdeb: can't prepare for packager: %w", err)
 	}
 
 	for _, content := range contents {
-		content.FileInfo.MTime = time.Unix(0, 0)
+		content.FileInfo.MTime = internal.SourceEpoch()
 	}
 
 	info := nfpm.WithDefaults(&nfpm.Info{
@@ -157,7 +156,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		Maintainer:  fmt.Sprintf("%s <%s>", *internal.UserName, *internal.UserEmail),
 		Homepage:    p.Homepage,
 		License:     p.License,
-		MTime:       time.Unix(0, 0),
+		MTime:       internal.SourceEpoch(),
 		Overridables: nfpm.Overridables{
 			Contents:   contents,
 			Depends:    p.Depends,

@@ -60,13 +60,23 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 	os.Setenv("GOOS", p.Platform)
 	os.Setenv("CGO_ENABLED", "0")
 
+	trashDir, err := os.MkdirTemp("", "yeet-trash-*")
+	if err != nil {
+		return "", fmt.Errorf("can't make trash directory: %w", err)
+	}
+	defer os.RemoveAll(trashDir)
+
 	p.Build(pkgmeta.BuildInput{
-		Output:  dir,
-		Bin:     filepath.Join(dir, "usr", "bin"),
-		Doc:     filepath.Join(dir, "usr", "share", "doc", p.Name),
-		Etc:     filepath.Join(dir, "etc", p.Name),
-		Man:     filepath.Join(dir, "usr", "share", "man"),
-		Systemd: filepath.Join(dir, "usr", "lib", "systemd", "system"),
+		Output: dir,
+		Bin:    filepath.Join(dir, "usr", "bin"),
+		Doc:    filepath.Join(dir, "usr", "share", "doc", p.Name),
+		Etc:    filepath.Join(dir, "etc", p.Name),
+		Man:    filepath.Join(dir, "usr", "share", "man"),
+		Confd:  filepath.Join(dir, "etc", "conf.d"),
+		Initd:  filepath.Join(dir, "etc", "init.d"),
+
+		// We don't need Systemd metadata in Alpine packages
+		Systemd: trashDir,
 	})
 
 	var contents files.Contents

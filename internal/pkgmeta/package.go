@@ -29,6 +29,10 @@ type BuildInput struct {
 	Etc     string `json:"etc"`
 	Man     string `json:"man"`
 	Systemd string `json:"systemd"`
+
+	// OpenRC settings
+	Confd string `json:"confd"`
+	Initd string `json:"initd"`
 }
 
 func (b BuildInput) String() string {

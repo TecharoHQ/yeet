@@ -56,6 +56,12 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 	os.Setenv("GOOS", "linux")
 	os.Setenv("CGO_ENABLED", "0")
 
+	trashDir, err := os.MkdirTemp("", "yeet-trash-*")
+	if err != nil {
+		return "", fmt.Errorf("can't make trash directory: %w", err)
+	}
+	defer os.RemoveAll(trashDir)
+
 	p.Build(pkgmeta.BuildInput{
 		Output:  dir,
 		Bin:     filepath.Join(dir, "usr", "bin"),
@@ -63,6 +69,10 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		Etc:     filepath.Join(dir, "etc", p.Name),
 		Man:     filepath.Join(dir, "usr", "share", "man"),
 		Systemd: filepath.Join(dir, "usr", "lib", "systemd", "system"),
+
+		// We don't need OpenRC metadata in Debian packages
+		Confd: trashDir,
+		Initd: trashDir,
 	})
 
 	var contents files.Contents

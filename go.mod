@@ -10,6 +10,7 @@ require (
 	github.com/dop251/goja v0.0.0-20250309171923-bcd7cc6bf64c
 	github.com/goreleaser/nfpm/v2 v2.42.1
 	github.com/pkg/errors v0.9.1
+	mvdan.cc/sh/v3 v3.11.0
 	pault.ag/go/debian v0.18.0
 )
 
@@ -77,7 +78,6 @@ require (
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	honnef.co/go/tools v0.6.1 // indirect
-	mvdan.cc/sh/v3 v3.11.0 // indirect
 	pault.ag/go/topsort v0.1.1 // indirect
 )
 

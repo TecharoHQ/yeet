@@ -3,7 +3,6 @@ package yeettest
 import (
 	"os"
 	"path/filepath"
-	"runtime"
 	"testing"
 
 	"github.com/TecharoHQ/yeet/internal"
@@ -25,8 +24,8 @@ func BuildHello(t *testing.T, build Impl, version string, fatal bool) string {
 		Description: "Hello world",
 		Homepage:    "https://example.com",
 		License:     "MIT",
-		Platform:    runtime.GOOS,
-		Goarch:      runtime.GOARCH,
+		Platform:    "linux",
+		Goarch:      "ppc64le",
 		Build: func(p pkgmeta.BuildInput) {
 			yeet.ShouldWork(t.Context(), nil, yeet.WD, "go", "build", "-o", filepath.Join(p.Bin, "hello"), "../testdata/hello")
 		},

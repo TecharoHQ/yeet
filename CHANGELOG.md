@@ -1,3 +1,12 @@
+## [0.6.1](https://github.com/TecharoHQ/yeet/compare/v0.6.0...v0.6.1) (2025-06-03)
+
+
+### Bug Fixes
+
+* **internal/mkrpm:** ensure greater reproduciblity ([f515b41](https://github.com/TecharoHQ/yeet/commit/f515b4130e9727b1acb23701dc26b457e4517949))
+* **internal/vfs:** don't give archive/tar Sys data ([b68cbc8](https://github.com/TecharoHQ/yeet/commit/b68cbc825e7597509e0b8f595f6bc743a2b2ea5b))
+* **internal/vfs:** implement gname and uname for modtimefileinfo ([18f16f2](https://github.com/TecharoHQ/yeet/commit/18f16f2d0e1b9f924097733eb799c9d8e278e28a))
+
 # [0.6.0](https://github.com/TecharoHQ/yeet/compare/v0.5.0...v0.6.0) (2025-06-01)
 
 

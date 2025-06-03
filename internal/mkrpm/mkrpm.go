@@ -170,6 +170,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		},
 	})
 
+	info.Overridables.RPM.BuildHost = "yeet"
 	info.Overridables.RPM.Group = p.Group
 
 	if *internal.GPGKeyPassword != "" {

@@ -8,7 +8,7 @@ require (
 	github.com/Songmu/gitconfig v0.2.0
 	github.com/cavaliergopher/rpm v1.3.0
 	github.com/dop251/goja v0.0.0-20250309171923-bcd7cc6bf64c
-	github.com/goreleaser/nfpm/v2 v2.42.1
+	github.com/goreleaser/nfpm/v2 v2.43.0
 	github.com/pkg/errors v0.9.1
 	mvdan.cc/sh/v3 v3.11.0
 	pault.ag/go/debian v0.18.0
@@ -21,7 +21,7 @@ require (
 	github.com/Masterminds/goutils v1.1.1 // indirect
 	github.com/Masterminds/sprig/v3 v3.3.0 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
-	github.com/ProtonMail/go-crypto v1.2.0 // indirect
+	github.com/ProtonMail/go-crypto v1.3.0 // indirect
 	github.com/blakesmith/ar v0.0.0-20190502131153-809d4375e1fb // indirect
 	github.com/cavaliergopher/cpio v1.0.1 // indirect
 	github.com/cli/go-gh v0.1.0 // indirect
@@ -40,7 +40,7 @@ require (
 	github.com/goccy/go-yaml v1.12.0 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
 	github.com/google/pprof v0.0.0-20230207041349-798e818bf904 // indirect
-	github.com/google/rpmpack v0.6.1-0.20250405124433-758cc6896cbc // indirect
+	github.com/google/rpmpack v0.7.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/goreleaser/chglog v0.7.0 // indirect
 	github.com/goreleaser/fileglob v1.3.0 // indirect

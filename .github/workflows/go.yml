@@ -46,7 +46,7 @@ jobs:
             ${{ runner.os }}-golang-
 
       - name: Build
-        run: go build ./cmd/yeet -o ./var/yeet
+        run: go build -o ./var/yeet ./cmd/yeet
 
       - name: Test
         run: |

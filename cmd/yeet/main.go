@@ -76,7 +76,6 @@ func dockerpush(image string) {
 
 func buildShellCommand(literals []string, exprs ...any) string {
 	var sb strings.Builder
-	fmt.Fprintln(&sb, "set -e")
 
 	for i, value := range exprs {
 		sb.WriteString(literals[i])
@@ -102,6 +101,7 @@ func runShellCommand(ctx context.Context, literals []string, exprs ...any) (stri
 
 	runner, err := interp.New(
 		interp.StdIO(nil, &buf, os.Stderr),
+		interp.Params("-e"),
 	)
 	if err != nil {
 		return "", err

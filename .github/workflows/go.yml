@@ -12,7 +12,14 @@ permissions:
 
 jobs:
   go_tests:
-    #runs-on: alrest-techarohq
+    strategy:
+      matrix:
+        os:
+          - ubuntu-24.04
+          - windows-2025
+          - macos-15
+          - ubuntu-24.04-arm
+          - windows-11-arm
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -20,34 +27,13 @@ jobs:
           persist-credentials: false
           fetch-tags: true
 
-      - name: build essential
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential
-
-      - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@8bcbfa880644de056b8e6bb1c583cb2f4362c6bb
-
-      - name: Setup Homebrew cellar cache
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          path: |
-            /home/linuxbrew/.linuxbrew/Cellar
-            /home/linuxbrew/.linuxbrew/bin
-            /home/linuxbrew/.linuxbrew/etc
-            /home/linuxbrew/.linuxbrew/include
-            /home/linuxbrew/.linuxbrew/lib
-            /home/linuxbrew/.linuxbrew/opt
-            /home/linuxbrew/.linuxbrew/sbin
-            /home/linuxbrew/.linuxbrew/share
-            /home/linuxbrew/.linuxbrew/var
-          key: ${{ runner.os }}-go-homebrew-cellar-${{ hashFiles('go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-homebrew-cellar-
+          node-version: latest
 
-      - name: Install Brew dependencies
-        run: |
-          brew bundle
+      - uses: actions/setup-go@v5
+        with:
+          go-version: latest
 
       - name: Setup Golang caches
         uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
@@ -60,10 +46,12 @@ jobs:
             ${{ runner.os }}-golang-
 
       - name: Build
-        run: make build
+        run: go build ./cmd/yeet -o ./var/yeet
 
       - name: Test
-        run: make test
+        run: |
+          go vet ./...
+          go test ./...
 
       - uses: dominikh/staticcheck-action@fe1dd0c3658873b46f8c9bb3291096a617310ca6 # v1.3.1
         with:

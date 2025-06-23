@@ -1,3 +1,10 @@
+## [0.6.2](https://github.com/TecharoHQ/yeet/compare/v0.6.1...v0.6.2) (2025-06-23)
+
+
+### Bug Fixes
+
+* **yeet:** make $ fail if the commands fail ([#32](https://github.com/TecharoHQ/yeet/issues/32)) ([063f382](https://github.com/TecharoHQ/yeet/commit/063f382fbf497d9f93821cc0d68b48459e9217bb))
+
 ## [0.6.1](https://github.com/TecharoHQ/yeet/compare/v0.6.0...v0.6.1) (2025-06-03)
 
 

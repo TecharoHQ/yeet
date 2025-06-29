@@ -34,3 +34,4 @@ jobs:
           imageName: ghcr.io/techarohq/yeet/devcontainer
           cacheFrom: ghcr.io/techarohq/yeet/devcontainer
           push: always
+          platform: linux/amd64,linux/arm64

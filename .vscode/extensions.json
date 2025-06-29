@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "DavidAnson.vscode-markdownlint",
+    "esbenp.prettier-vscode",
+    "docker.docker",
+    "golang.go",
+    "streetsidesoftware.code-spell-checker",
+    "ms-azuretools.vscode-containers",
+    "jinliming2.vscode-go-template",
+    "ms-vsliveshare.vsliveshare"
+  ]
+}

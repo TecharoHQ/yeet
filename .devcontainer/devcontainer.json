@@ -3,7 +3,12 @@
 {
   "name": "Dev",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/base:bookworm",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "cacheFrom": [
+      "type=registry,ref=ghcr.io/techarohq/yeet/devcontainer"
+    ]
+  },
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
     "ghcr.io/devcontainers/features/go:1": {},
@@ -12,8 +17,13 @@
     "ghcr.io/devcontainer-community/devcontainer-features/atuin.sh:1": {},
     "ghcr.io/devcontainers-extra/features/neovim-apt-get:1": {}
   },
+  "initializeCommand": "mkdir -p ${localEnv:HOME}${localEnv:USERPROFILE}/.local/share/atuin",
   "mounts": [
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.local/share/atuin,target=/home/vscode/.local/share/atuin,type=bind,consistency=cached"
+    {
+      "type": "bind",
+      "source": "${localEnv:HOME}${localEnv:USERPROFILE}/.local/share/atuin",
+      "target": "/home/vscode/.local/share/atuin"
+    }
   ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   "forwardPorts": [],

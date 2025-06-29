@@ -1,0 +1,43 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/debian
+{
+  "name": "Dev",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/base:bookworm",
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  "features": {
+    "ghcr.io/devcontainers/features/go:1": {},
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/xe/devcontainer-features/fish:0.1.1": {},
+    "ghcr.io/devcontainer-community/devcontainer-features/atuin.sh:1": {},
+    "ghcr.io/devcontainers-extra/features/neovim-apt-get:1": {}
+  },
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.local/share/atuin,target=/home/vscode/.local/share/atuin,type=bind,consistency=cached"
+  ],
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [],
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "DavidAnson.vscode-markdownlint",
+        "esbenp.prettier-vscode",
+        "docker.docker",
+        "golang.go",
+        "streetsidesoftware.code-spell-checker",
+        "ms-azuretools.vscode-containers",
+        "jinliming2.vscode-go-template",
+        "ms-vsliveshare.vsliveshare"
+      ],
+      "settings": {
+        "github.copilot.enable": {
+          "*": false
+        }
+      }
+    }
+  },
+  "postStartCommand": "npm ci && go mod download"
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
+}

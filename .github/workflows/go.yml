@@ -41,9 +41,9 @@ jobs:
           path: |
             ~/.cache/go-build
             ~/go/pkg/mod
-          key: ${{ runner.os }}-golang-${{ hashFiles('**/go.sum') }}
+          key: ${{ matrix.os }}-golang-${{ hashFiles('**/go.sum') }}
           restore-keys: |
-            ${{ runner.os }}-golang-
+            ${{ matrix.os }}-golang-
 
       - name: Build
         run: go build -o ./var/yeet ./cmd/yeet

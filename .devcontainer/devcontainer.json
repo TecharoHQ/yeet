@@ -4,6 +4,7 @@
   "name": "Dev",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
   "image": "ghcr.io/xe/devcontainer-base/pre/go",
+  "initializeCommand": "mkdir -p ${localEnv:HOME}${localEnv:USERPROFILE}/.local/share/atuin",
   "postStartCommand": "npm ci && go mod download",
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": "latest"

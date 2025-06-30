@@ -4,7 +4,7 @@ go 1.24.2
 
 require (
 	al.essio.dev/pkg/shellescape v1.6.0
-	github.com/Masterminds/semver/v3 v3.3.1
+	github.com/Masterminds/semver/v3 v3.4.0
 	github.com/Songmu/gitconfig v0.2.1
 	github.com/cavaliergopher/rpm v1.3.0
 	github.com/dop251/goja v0.0.0-20250309171923-bcd7cc6bf64c

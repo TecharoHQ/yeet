@@ -1,5 +1,3 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/debian
 {
   "name": "Dev",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
@@ -10,33 +8,3 @@
     "ghcr.io/devcontainers/features/github-cli:1": "latest"
   }
 }
-// {
-//   "name": "Go dev environment",
-//   "build": {
-//     "dockerfile": "Dockerfile"
-//   },
-//   // 👇 Features to add to the Dev Container. More info: https://containers.dev/implementors/features.
-//   "features": {
-//     "ghcr.io/devcontainers/features/go:1": {},
-//     "ghcr.io/devcontainers/features/node:1": {},
-//     "ghcr.io/xe/devcontainer-features/fish:0.1.1": {},
-//     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
-//     "ghcr.io/devcontainer-community/devcontainer-features/atuin.sh:1": {},
-//     "ghcr.io/devcontainers-extra/features/neovim-apt-get:1": {}
-//   },
-//   // 👇 Use 'forwardPorts' to make a list of ports inside the container available locally.
-//   // "forwardPorts": [],
-//   // 👇 Use 'postCreateCommand' to run commands after the container is created.
-//   "initializeCommand": "mkdir -p ${localEnv:HOME}${localEnv:USERPROFILE}/.local/share/atuin",
-//   "mounts": [
-//     {
-//       "type": "bind",
-//       "source": "${localEnv:HOME}${localEnv:USERPROFILE}/.local/share/atuin",
-//       "target": "/home/vscode/.local/share/atuin"
-//     }
-//   ],
-//   // 👇 Configure tool-specific properties.
-//   // "customizations": {},
-//   // 👇 Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-//   // "remoteUser": "root"
-// }

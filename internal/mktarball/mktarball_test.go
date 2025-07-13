@@ -12,15 +12,15 @@ import (
 )
 
 func TestBuild(t *testing.T) {
-	yeettest.BuildHello(t, Build, "1.0.0", true)
+	yeettest.BuildHello(t, Build, "1.0.0", "", "", true)
 }
 
 func TestBuildError(t *testing.T) {
-	yeettest.BuildHello(t, Build, ".0.0", false)
+	yeettest.BuildHello(t, Build, ".0.0", "", "", false)
 }
 
 func TestTimestampsNotZero(t *testing.T) {
-	pkg := yeettest.BuildHello(t, Build, "1.0.0", true)
+	pkg := yeettest.BuildHello(t, Build, "1.0.0", "", "", true)
 
 	fin, err := os.Open(pkg)
 	if err != nil {

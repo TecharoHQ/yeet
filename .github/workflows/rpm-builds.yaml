@@ -1,4 +1,4 @@
-name: Go
+name: RPM end to end
 
 on:
   push:
@@ -6,26 +6,20 @@ on:
   pull_request:
     branches: ["main"]
 
-permissions:
-  contents: read
-  actions: write
-
 jobs:
-  go_tests:
+  rpm_builds:
     strategy:
       matrix:
         os:
           - ubuntu-24.04
-          #- windows-2025
-          - macos-15
           - ubuntu-24.04-arm
-          #- windows-11-arm
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
           fetch-tags: true
+          fetch-depth: 0
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
@@ -34,15 +28,7 @@ jobs:
       - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
         with:
           go-version: stable
-
-      - name: Build
-        run: go build -o ./var/yeet ./cmd/yeet
-
-      - name: Test
+      
+      - name: RPM builds
         run: |
-          go vet ./...
-          go test ./...
-
-      - uses: dominikh/staticcheck-action@024238d2898c874f26d723e7d0ff4308c35589a2 # v1.4.0
-        with:
-          version: "latest"
+          bash ./test/rpm-installtest.sh

@@ -3,7 +3,7 @@
 set -euo pipefail
 
 eval `go run ./test/makekey ./var/foo.gpg`
-eval `go run ./cmd/yeet --fname ./test/rpm-installtest.yeetfile.js --gpg-key-file=${GPG_KEY_FILE} --gpg-key-id=${GPG_KEY_ID}`
+eval `go run ./cmd/yeet --fname ./test/rpm-installtest.yeetfile.js --gpg-key-file=${GPG_KEY_FILE} --gpg-key-id=${GPG_KEY_ID} --force-git-version 1.0.0`
 
 images='rockylinux/rockylinux:10
 rockylinux/rockylinux:9

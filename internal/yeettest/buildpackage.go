@@ -13,10 +13,12 @@ import (
 
 type Impl func(p pkgmeta.Package) (string, error)
 
-func BuildHello(t *testing.T, build Impl, version string, fatal bool) string {
+func BuildHello(t *testing.T, build Impl, version, keyFname, keyID string, fatal bool) string {
 	t.Helper()
 
 	dir := t.TempDir()
+	internal.GPGKeyFile = &keyFname
+	internal.GPGKeyID = &keyID
 	internal.PackageDestDir = &dir
 
 	p := pkgmeta.Package{

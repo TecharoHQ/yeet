@@ -2,15 +2,23 @@ package mkrpm
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/Masterminds/semver/v3"
+	"github.com/TecharoHQ/yeet/internal/gpgtest"
 	"github.com/TecharoHQ/yeet/internal/yeettest"
 	"github.com/cavaliergopher/rpm"
 )
 
 func TestBuild(t *testing.T) {
-	fname := yeettest.BuildHello(t, Build, "1.0.0", true)
+	keyFname := filepath.Join(t.TempDir(), "foo.gpg")
+	keyID, err := gpgtest.MakeKey(t.Context(), keyFname)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	fname := yeettest.BuildHello(t, Build, "1.0.0", keyFname, keyID, true)
 
 	pkg, err := rpm.Open(fname)
 	if err != nil {
@@ -33,5 +41,5 @@ func TestBuild(t *testing.T) {
 }
 
 func TestBuildError(t *testing.T) {
-	yeettest.BuildHello(t, Build, ".0.0", false)
+	yeettest.BuildHello(t, Build, ".0.0", "", "", false)
 }

@@ -1,14 +1,22 @@
 package mkdeb
 
 import (
+	"path/filepath"
 	"testing"
 
+	"github.com/TecharoHQ/yeet/internal/gpgtest"
 	"github.com/TecharoHQ/yeet/internal/yeettest"
 	"pault.ag/go/debian/deb"
 )
 
 func TestBuild(t *testing.T) {
-	fname := yeettest.BuildHello(t, Build, "1.0.0", true)
+	keyFname := filepath.Join(t.TempDir(), "foo.gpg")
+	keyID, err := gpgtest.MakeKey(t.Context(), keyFname)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	fname := yeettest.BuildHello(t, Build, "1.0.0", keyFname, keyID, true)
 
 	debFile, close, err := deb.LoadFile(fname)
 	if err != nil {
@@ -22,5 +30,5 @@ func TestBuild(t *testing.T) {
 }
 
 func TestBuildError(t *testing.T) {
-	yeettest.BuildHello(t, Build, ".0.0", false)
+	yeettest.BuildHello(t, Build, ".0.0", "", "", false)
 }

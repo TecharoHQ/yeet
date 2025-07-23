@@ -1,0 +1,20 @@
+name: Automatically tag release
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  autorelease:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    steps:
+      - name: "Cut release if 'Release-Status: cut' in commit message"
+        if: "${{ github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, 'Release-status: cut') }}"
+        uses: benc-uk/workflow-dispatch@e2e5e9a103e331dad343f381a29e654aea3cf8fc # v1.2.4
+        with:
+          workflow: "release.yaml"

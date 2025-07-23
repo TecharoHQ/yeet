@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -57,6 +58,10 @@ func TestBuildError(t *testing.T) {
 }
 
 func TestEndToEndInstall(t *testing.T) {
+	if _, err := exec.LookPath("docker"); err != nil {
+		t.Skipf("docker not installed: %v", err)
+	}
+
 	os := "linux"
 	for _, cpu := range yeettest.Arches {
 		platform := fmt.Sprintf("%s/%s", os, cpu)

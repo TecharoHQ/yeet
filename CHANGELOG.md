@@ -1,3 +1,10 @@
+## [0.6.3](https://github.com/TecharoHQ/yeet/compare/v0.6.2...v0.6.3) (2025-07-23)
+
+
+### Bug Fixes
+
+* mkdeb and mktarball don't reference mkrpm ([#47](https://github.com/TecharoHQ/yeet/issues/47)) ([a9b8658](https://github.com/TecharoHQ/yeet/commit/a9b86589103cfc6ef4e23b37775703aff6cf8bf8))
+
 ## [0.6.2](https://github.com/TecharoHQ/yeet/compare/v0.6.1...v0.6.2) (2025-06-23)
 
 

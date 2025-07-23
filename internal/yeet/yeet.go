@@ -52,6 +52,7 @@ func ShouldWork(ctx context.Context, env []string, dir string, cmdName string, a
 
 	err = cmd.Run()
 	if err != nil {
+		slog.Error("failed", "err", err)
 		panic(err)
 	}
 }

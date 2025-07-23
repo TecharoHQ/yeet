@@ -48,10 +48,11 @@ func ShouldWork(ctx context.Context, env []string, dir string, cmdName string, a
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	slog.Info("starting process", "pwd", dir, "cmd", loc, "args", args)
+	slog.Debug("starting process", "pwd", dir, "cmd", loc, "args", args)
 
 	err = cmd.Run()
 	if err != nil {
+		slog.Error("failed", "err", err)
 		panic(err)
 	}
 }

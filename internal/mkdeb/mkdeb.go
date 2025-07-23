@@ -19,10 +19,10 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			if err, ok := r.(error); ok {
-				slog.Error("mkrpm: error while building", "err", err)
+				slog.Error("mkdeb: error while building", "err", err)
 			} else {
 				err = fmt.Errorf("%v", r)
-				slog.Error("mkrpm: error while building", "err", err)
+				slog.Error("mkdeb: error while building", "err", err)
 			}
 		}
 	}()
@@ -40,7 +40,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 
 	dir, err := os.MkdirTemp("", "yeet-mkdeb")
 	if err != nil {
-		return "", fmt.Errorf("mkrpm: can't make temporary directory")
+		return "", fmt.Errorf("mkdeb: can't make temporary directory")
 	}
 	defer os.RemoveAll(dir)
 	os.MkdirAll(dir, 0755)

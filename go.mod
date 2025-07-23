@@ -12,7 +12,7 @@ require (
 	github.com/goreleaser/nfpm/v2 v2.43.0
 	github.com/pkg/errors v0.9.1
 	mvdan.cc/sh/v3 v3.12.0
-	pault.ag/go/debian v0.18.0
+	pault.ag/go/debian v0.19.0
 )
 
 require (

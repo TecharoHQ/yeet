@@ -93,22 +93,22 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		})
 	}
 
-	for repoPath, rpmPath := range p.Documentation {
+	for repoPath, pkgPath := range p.Documentation {
 		contents = append(contents, &files.Content{
 			Type:        files.TypeFile,
 			Source:      repoPath,
-			Destination: filepath.Join("/usr/share/doc", p.Name, rpmPath),
+			Destination: filepath.Join("/usr/share/doc", p.Name, pkgPath),
 			FileInfo: &files.ContentFileInfo{
 				MTime: internal.SourceEpoch(),
 			},
 		})
 	}
 
-	for repoPath, rpmPath := range p.Files {
+	for repoPath, pkgPath := range p.Files {
 		contents = append(contents, &files.Content{
 			Type:        files.TypeFile,
 			Source:      repoPath,
-			Destination: rpmPath,
+			Destination: pkgPath,
 			FileInfo: &files.ContentFileInfo{
 				MTime: internal.SourceEpoch(),
 			},
@@ -166,8 +166,6 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		},
 	})
 
-	info.Overridables.RPM.Group = p.Group
-
 	if *internal.GPGKeyID != "" {
 		slog.Debug("using GPG key", "file", *internal.GPGKeyFile, "id", *internal.GPGKeyID)
 		info.Overridables.Deb.Signature.KeyFile = *internal.GPGKeyFile
@@ -177,7 +175,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 
 	pkg, err := nfpm.Get("deb")
 	if err != nil {
-		return "", fmt.Errorf("mkdeb: can't get RPM packager: %w", err)
+		return "", fmt.Errorf("mkdeb: can't get debian packager: %w", err)
 	}
 
 	foutpath = pkg.ConventionalFileName(info)

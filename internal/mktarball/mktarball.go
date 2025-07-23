@@ -24,10 +24,10 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			if err, ok := r.(error); ok {
-				slog.Error("mkrpm: error while building", "err", err)
+				slog.Error("mktarball: error while building", "err", err)
 			} else {
 				err = fmt.Errorf("%v", r)
-				slog.Error("mkrpm: error while building", "err", err)
+				slog.Error("mktarball: error while building", "err", err)
 			}
 		}
 	}()

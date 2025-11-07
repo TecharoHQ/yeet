@@ -144,7 +144,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 
 	contents, err = files.PrepareForPackager(contents, 0o002, "rpm", true, time.Unix(0, 0))
 	if err != nil {
-		return "", fmt.Errorf("mkdeb: can't prepare for packager: %w", err)
+		return "", fmt.Errorf("mkrpm: can't prepare for packager: %w", err)
 	}
 
 	for _, content := range contents {

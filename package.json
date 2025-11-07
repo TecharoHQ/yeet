@@ -1,6 +1,6 @@
 {
   "name": "@techaro/yeet",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "description": "Yeet those actions out with JavaScript!",
   "directories": {
     "doc": "doc"

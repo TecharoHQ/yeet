@@ -1,104 +1,101 @@
-## [0.6.3](https://github.com/TecharoHQ/yeet/compare/v0.6.2...v0.6.3) (2025-07-23)
-
+# [0.7.0](https://github.com/TecharoHQ/yeet/compare/v0.6.3...v0.7.0) (2025-11-07)
 
 ### Bug Fixes
 
-* mkdeb and mktarball don't reference mkrpm ([#47](https://github.com/TecharoHQ/yeet/issues/47)) ([a9b8658](https://github.com/TecharoHQ/yeet/commit/a9b86589103cfc6ef4e23b37775703aff6cf8bf8))
+- fix stray mkdeb log line in mkrpm build ([#54](https://github.com/TecharoHQ/yeet/issues/54)) ([3f600fc](https://github.com/TecharoHQ/yeet/commit/3f600fc7e4b14e1182651e7ea770e889ba6a5ebf))
+- **mkdeb:** remove last vestiges of RPM heritage ([d93657e](https://github.com/TecharoHQ/yeet/commit/d93657e27cf300affb654a1ca85f37d5981ed45d))
+- remove unnecessary braces from lint-staged Go pattern ([ddcee07](https://github.com/TecharoHQ/yeet/commit/ddcee0764b9d38f3f13e445a29bb3a0dd4afde1b))
+
+### Features
+
+- **mkapk:** add nfpm support for APK packages ([#55](https://github.com/TecharoHQ/yeet/issues/55)) ([070c602](https://github.com/TecharoHQ/yeet/commit/070c602e6d4a8bd2020dc50e4ef65874f97495d6))
+
+## [0.6.3](https://github.com/TecharoHQ/yeet/compare/v0.6.2...v0.6.3) (2025-07-23)
+
+### Bug Fixes
+
+- mkdeb and mktarball don't reference mkrpm ([#47](https://github.com/TecharoHQ/yeet/issues/47)) ([a9b8658](https://github.com/TecharoHQ/yeet/commit/a9b86589103cfc6ef4e23b37775703aff6cf8bf8))
 
 ## [0.6.2](https://github.com/TecharoHQ/yeet/compare/v0.6.1...v0.6.2) (2025-06-23)
 
-
 ### Bug Fixes
 
-* **yeet:** make $ fail if the commands fail ([#32](https://github.com/TecharoHQ/yeet/issues/32)) ([063f382](https://github.com/TecharoHQ/yeet/commit/063f382fbf497d9f93821cc0d68b48459e9217bb))
+- **yeet:** make $ fail if the commands fail ([#32](https://github.com/TecharoHQ/yeet/issues/32)) ([063f382](https://github.com/TecharoHQ/yeet/commit/063f382fbf497d9f93821cc0d68b48459e9217bb))
 
 ## [0.6.1](https://github.com/TecharoHQ/yeet/compare/v0.6.0...v0.6.1) (2025-06-03)
 
-
 ### Bug Fixes
 
-* **internal/mkrpm:** ensure greater reproduciblity ([f515b41](https://github.com/TecharoHQ/yeet/commit/f515b4130e9727b1acb23701dc26b457e4517949))
-* **internal/vfs:** don't give archive/tar Sys data ([b68cbc8](https://github.com/TecharoHQ/yeet/commit/b68cbc825e7597509e0b8f595f6bc743a2b2ea5b))
-* **internal/vfs:** implement gname and uname for modtimefileinfo ([18f16f2](https://github.com/TecharoHQ/yeet/commit/18f16f2d0e1b9f924097733eb799c9d8e278e28a))
+- **internal/mkrpm:** ensure greater reproduciblity ([f515b41](https://github.com/TecharoHQ/yeet/commit/f515b4130e9727b1acb23701dc26b457e4517949))
+- **internal/vfs:** don't give archive/tar Sys data ([b68cbc8](https://github.com/TecharoHQ/yeet/commit/b68cbc825e7597509e0b8f595f6bc743a2b2ea5b))
+- **internal/vfs:** implement gname and uname for modtimefileinfo ([18f16f2](https://github.com/TecharoHQ/yeet/commit/18f16f2d0e1b9f924097733eb799c9d8e278e28a))
 
 # [0.6.0](https://github.com/TecharoHQ/yeet/compare/v0.5.0...v0.6.0) (2025-06-01)
 
-
 ### Bug Fixes
 
-* use sh instead of bash ([#27](https://github.com/TecharoHQ/yeet/issues/27)) ([2e169ef](https://github.com/TecharoHQ/yeet/commit/2e169efafec110d71c8fb596c0a163f902c6f757))
-
+- use sh instead of bash ([#27](https://github.com/TecharoHQ/yeet/issues/27)) ([2e169ef](https://github.com/TecharoHQ/yeet/commit/2e169efafec110d71c8fb596c0a163f902c6f757))
 
 ### Features
 
-* support SOURCE_DATE_EPOCH ([#26](https://github.com/TecharoHQ/yeet/issues/26)) ([c01c3db](https://github.com/TecharoHQ/yeet/commit/c01c3db54cddbed5faf1f32a0993620c7aaade9b))
-* use mvdan.cc/sh/v3 instead of system sh ([#28](https://github.com/TecharoHQ/yeet/issues/28)) ([5459d92](https://github.com/TecharoHQ/yeet/commit/5459d922e1e3e0aaa3deef6cdf449c4cab3aeeea))
+- support SOURCE_DATE_EPOCH ([#26](https://github.com/TecharoHQ/yeet/issues/26)) ([c01c3db](https://github.com/TecharoHQ/yeet/commit/c01c3db54cddbed5faf1f32a0993620c7aaade9b))
+- use mvdan.cc/sh/v3 instead of system sh ([#28](https://github.com/TecharoHQ/yeet/issues/28)) ([5459d92](https://github.com/TecharoHQ/yeet/commit/5459d922e1e3e0aaa3deef6cdf449c4cab3aeeea))
 
 # [0.5.0](https://github.com/TecharoHQ/yeet/compare/v0.4.0...v0.5.0) (2025-05-30)
 
-
 ### Features
 
-* **deb,rpm,tarball:** implement reproducible builds ([49686d8](https://github.com/TecharoHQ/yeet/commit/49686d84f20a6df92378139a6705504621f7c9d9))
+- **deb,rpm,tarball:** implement reproducible builds ([49686d8](https://github.com/TecharoHQ/yeet/commit/49686d84f20a6df92378139a6705504621f7c9d9))
 
 # [0.4.0](https://github.com/TecharoHQ/yeet/compare/v0.3.0...v0.4.0) (2025-05-29)
 
-
 ### Features
 
-* **yeetfile:** ppc64le builds ([bbc1e38](https://github.com/TecharoHQ/yeet/commit/bbc1e384f82724660365a4525262180241ec3f06))
+- **yeetfile:** ppc64le builds ([bbc1e38](https://github.com/TecharoHQ/yeet/commit/bbc1e384f82724660365a4525262180241ec3f06))
 
 # [0.3.0](https://github.com/TecharoHQ/yeet/compare/v0.2.3...v0.3.0) (2025-05-20)
 
-
 ### Features
 
-* **confyg:** export package publicly ([7abba3a](https://github.com/TecharoHQ/yeet/commit/7abba3a1ddcdd9eca4776a80d98851dcfc5005fc))
+- **confyg:** export package publicly ([7abba3a](https://github.com/TecharoHQ/yeet/commit/7abba3a1ddcdd9eca4776a80d98851dcfc5005fc))
 
 ## [0.2.3](https://github.com/TecharoHQ/yeet/compare/v0.2.2...v0.2.3) (2025-05-09)
 
-
 ### Bug Fixes
 
-* **cmd/yeet:** show build method in --version ([#20](https://github.com/TecharoHQ/yeet/issues/20)) ([ca06ce7](https://github.com/TecharoHQ/yeet/commit/ca06ce7d9247e1d18b8be346e191404e652bd6f9))
+- **cmd/yeet:** show build method in --version ([#20](https://github.com/TecharoHQ/yeet/issues/20)) ([ca06ce7](https://github.com/TecharoHQ/yeet/commit/ca06ce7d9247e1d18b8be346e191404e652bd6f9))
 
 ## [0.2.2](https://github.com/TecharoHQ/yeet/compare/v0.2.1...v0.2.2) (2025-05-02)
 
-
 ### Bug Fixes
 
-* **mkdeb|mkrpm:** append package name to ${doc} folder ([4976741](https://github.com/TecharoHQ/yeet/commit/4976741c7dba9196d23e25d2fd1ae07af10673e3))
+- **mkdeb|mkrpm:** append package name to ${doc} folder ([4976741](https://github.com/TecharoHQ/yeet/commit/4976741c7dba9196d23e25d2fd1ae07af10673e3))
 
 ## [0.2.1](https://github.com/TecharoHQ/yeet/compare/v0.2.0...v0.2.1) (2025-04-26)
 
-
 ### Bug Fixes
 
-* make build errors fatal ([#18](https://github.com/TecharoHQ/yeet/issues/18)) ([7a467e7](https://github.com/TecharoHQ/yeet/commit/7a467e7d2b8dc4dd6eb704a9940adb1c9711859e))
+- make build errors fatal ([#18](https://github.com/TecharoHQ/yeet/issues/18)) ([7a467e7](https://github.com/TecharoHQ/yeet/commit/7a467e7d2b8dc4dd6eb704a9940adb1c9711859e))
 
 # [0.2.0](https://github.com/TecharoHQ/yeet/compare/v0.1.1...v0.2.0) (2025-04-26)
 
-
 ### Bug Fixes
 
-* **internal:** fix version string mangling logic ([#16](https://github.com/TecharoHQ/yeet/issues/16)) ([56e6fa9](https://github.com/TecharoHQ/yeet/commit/56e6fa973d89aa220b0a712c59a751fa8ccfa49c))
-
+- **internal:** fix version string mangling logic ([#16](https://github.com/TecharoHQ/yeet/issues/16)) ([56e6fa9](https://github.com/TecharoHQ/yeet/commit/56e6fa973d89aa220b0a712c59a751fa8ccfa49c))
 
 ### Features
 
-* enforce semver in package versions ([#17](https://github.com/TecharoHQ/yeet/issues/17)) ([178f179](https://github.com/TecharoHQ/yeet/commit/178f17969e17eaf26eb28b9c93a6c24600b5c98c))
+- enforce semver in package versions ([#17](https://github.com/TecharoHQ/yeet/issues/17)) ([178f179](https://github.com/TecharoHQ/yeet/commit/178f17969e17eaf26eb28b9c93a6c24600b5c98c))
 
 # [0.2.0](https://github.com/TecharoHQ/yeet/compare/v0.1.1...v0.2.0) (2025-04-26)
 
-
 ### Bug Fixes
 
-* **internal:** fix version string mangling logic ([#16](https://github.com/TecharoHQ/yeet/issues/16)) ([56e6fa9](https://github.com/TecharoHQ/yeet/commit/56e6fa973d89aa220b0a712c59a751fa8ccfa49c))
-
+- **internal:** fix version string mangling logic ([#16](https://github.com/TecharoHQ/yeet/issues/16)) ([56e6fa9](https://github.com/TecharoHQ/yeet/commit/56e6fa973d89aa220b0a712c59a751fa8ccfa49c))
 
 ### Features
 
-* enforce semver in package versions ([#17](https://github.com/TecharoHQ/yeet/issues/17)) ([178f179](https://github.com/TecharoHQ/yeet/commit/178f17969e17eaf26eb28b9c93a6c24600b5c98c))
+- enforce semver in package versions ([#17](https://github.com/TecharoHQ/yeet/issues/17)) ([178f179](https://github.com/TecharoHQ/yeet/commit/178f17969e17eaf26eb28b9c93a6c24600b5c98c))
 
 ## [0.1.1](https://github.com/TecharoHQ/yeet/compare/v0.1.0...v0.1.1) (2025-04-22)
 

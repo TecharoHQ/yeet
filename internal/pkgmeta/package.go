@@ -23,12 +23,19 @@ type Package struct {
 }
 
 type BuildInput struct {
-	Output  string `json:"out"`
-	Bin     string `json:"bin"`
-	Doc     string `json:"doc"`
-	Etc     string `json:"etc"`
-	Man     string `json:"man"`
-	Systemd string `json:"systemd"`
+	Output string `json:"out"`
+	Bin    string `json:"bin"`
+	Doc    string `json:"doc"`
+	Etc    string `json:"etc"`
+	Man    string `json:"man"`
+
+	Systemd string  `json:"systemd,omitempty"`
+	Openrc  *Openrc `json:"openrc,omitempty"`
+}
+
+type Openrc struct {
+	InitDir string `json:"init"`
+	ConfDir string `json:"conf"`
 }
 
 func (b BuildInput) String() string {

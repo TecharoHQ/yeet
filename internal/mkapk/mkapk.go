@@ -57,11 +57,12 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 	os.Setenv("CGO_ENABLED", "0")
 
 	p.Build(pkgmeta.BuildInput{
-		Output:  dir,
-		Bin:     filepath.Join(dir, "usr", "bin"),
-		Doc:     filepath.Join(dir, "usr", "share", "doc", p.Name),
-		Etc:     filepath.Join(dir, "etc", p.Name),
-		Man:     filepath.Join(dir, "usr", "share", "man"),
+		Output: dir,
+		Bin:    filepath.Join(dir, "usr", "bin"),
+		Doc:    filepath.Join(dir, "usr", "share", "doc", p.Name),
+		Etc:    filepath.Join(dir, "etc", p.Name),
+		Man:    filepath.Join(dir, "usr", "share", "man"),
+		// some APK-based distributions support systemd
 		Systemd: filepath.Join(dir, "usr", "lib", "systemd", "system"),
 		Openrc: &pkgmeta.Openrc{
 			InitDir: filepath.Join(dir, "etc", "init.d"),

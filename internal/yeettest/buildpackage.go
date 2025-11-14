@@ -12,7 +12,6 @@ import (
 
 	"github.com/TecharoHQ/yeet/internal"
 	"github.com/TecharoHQ/yeet/internal/pkgmeta"
-	"github.com/TecharoHQ/yeet/internal/yeet"
 )
 
 var Arches = []string{"386", "amd64", "arm64", "ppc64le", "riscv64"}
@@ -36,7 +35,15 @@ func (bi BuildHelloInput) Platform() (os, cpu string) {
 	return runtime.GOOS, runtime.GOARCH
 }
 
-func BuildHello(t *testing.T, build Impl, inp BuildHelloInput) string {
+func BuildHello(t *testing.T, pkgBuildImpl Impl, inp BuildHelloInput) string {
+	return buildCustomHelloImpl(t, pkgBuildImpl, inp, nil)
+}
+
+func BuildCustomHello(t *testing.T, pkgBuildImpl Impl, inp BuildHelloInput, yeetBuild func(pkgmeta.BuildInput)) string {
+	return buildCustomHelloImpl(t, pkgBuildImpl, inp, &yeetBuild)
+}
+
+func buildCustomHelloImpl(t *testing.T, pkgBuildImpl Impl, inp BuildHelloInput, yeetBuild *func(pkgmeta.BuildInput)) string {
 	t.Helper()
 
 	goos, goarch := inp.Platform()
@@ -51,20 +58,9 @@ func BuildHello(t *testing.T, build Impl, inp BuildHelloInput) string {
 	internal.GPGKeyID = &keyID
 	internal.PackageDestDir = &dir
 
-	p := pkgmeta.Package{
-		Name:        "hello",
-		Version:     version,
-		Description: "Hello world",
-		Homepage:    "https://example.com",
-		License:     "MIT",
-		Platform:    goos,
-		Goarch:      goarch,
-		Build: func(p pkgmeta.BuildInput) {
-			yeet.ShouldWork(t.Context(), nil, yeet.WD, "go", "build", "-o", filepath.Join(p.Bin, "yeet-hello"), "../testdata/hello")
-		},
-	}
+	p := HelloFixture(t, version, goos, goarch, yeetBuild)
 
-	foutpath, err := build(p)
+	foutpath, err := pkgBuildImpl(p)
 	switch fatal {
 	case true:
 		if err != nil {
@@ -95,7 +91,7 @@ func RunScript(t *testing.T, ctx context.Context, args ...string) {
 	var err error
 	backoff := 250 * time.Millisecond
 
-	for attempt := 0; attempt < 5; attempt++ {
+	for attempt := range 5 {
 		t.Logf("Running command: %s", strings.Join(args, " "))
 		cmd := exec.CommandContext(ctx, args[0], args[1:]...)
 

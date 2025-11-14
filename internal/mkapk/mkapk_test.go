@@ -37,7 +37,7 @@ func TestBuild(t *testing.T) {
 	}
 	defer apkFile.Close()
 
-    if len(apkPackage.Version) == 0 {
+	if len(apkPackage.Version) == 0 {
 		t.Error("version is empty")
 	}
 }

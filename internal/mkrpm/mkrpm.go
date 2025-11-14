@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"slices"
 	"time"
 
 	"github.com/Masterminds/semver/v3"
@@ -71,76 +72,16 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 
 	var contents files.Contents
 
-	for _, d := range p.EmptyDirs {
-		if d == "" {
-			continue
-		}
+	contents = slices.Concat(contents, p.CopyEmptyDirs(0000)) // default mode
+	contents = slices.Concat(contents, p.CopyConfigFiles())
+	contents = slices.Concat(contents, p.CopyDocumentation())
+	contents = slices.Concat(contents, p.CopyFiles())
 
-		contents = append(contents, &files.Content{
-			Type:        files.TypeDir,
-			Destination: d,
-			FileInfo: &files.ContentFileInfo{
-				MTime: internal.SourceEpoch(),
-			},
-		})
-	}
-
-	for repoPath, rpmPath := range p.ConfigFiles {
-		contents = append(contents, &files.Content{
-			Type:        files.TypeConfig,
-			Source:      repoPath,
-			Destination: rpmPath,
-			FileInfo: &files.ContentFileInfo{
-				Mode:  os.FileMode(0600),
-				MTime: internal.SourceEpoch(),
-			},
-		})
-	}
-
-	for repoPath, rpmPath := range p.Documentation {
-		contents = append(contents, &files.Content{
-			Type:        files.TypeRPMDoc,
-			Source:      repoPath,
-			Destination: filepath.Join("/usr/share/doc", p.Name, rpmPath),
-			FileInfo: &files.ContentFileInfo{
-				MTime: internal.SourceEpoch(),
-			},
-		})
-	}
-
-	for repoPath, rpmPath := range p.Files {
-		contents = append(contents, &files.Content{
-			Type:        files.TypeFile,
-			Source:      repoPath,
-			Destination: rpmPath,
-			FileInfo: &files.ContentFileInfo{
-				MTime: internal.SourceEpoch(),
-			},
-		})
-	}
-
-	if err := filepath.Walk(dir, func(path string, stat os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-
-		if stat.IsDir() {
-			return nil
-		}
-
-		contents = append(contents, &files.Content{
-			Type:        files.TypeFile,
-			Source:      path,
-			Destination: path[len(dir)+1:],
-			FileInfo: &files.ContentFileInfo{
-				MTime: internal.SourceEpoch(),
-			},
-		})
-
-		return nil
-	}); err != nil {
+	cs, err := p.CopyTree(dir)
+	if err != nil {
 		return "", fmt.Errorf("mkrpm: can't walk output directory: %w", err)
 	}
+	contents = slices.Concat(contents, cs)
 
 	contents, err = files.PrepareForPackager(contents, 0o002, "rpm", true, time.Unix(0, 0))
 	if err != nil {

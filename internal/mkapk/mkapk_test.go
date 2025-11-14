@@ -2,13 +2,16 @@ package mkapk
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 
+	"github.com/TecharoHQ/yeet/internal/pkgmeta"
 	"github.com/TecharoHQ/yeet/internal/yeet"
 	"github.com/TecharoHQ/yeet/internal/yeettest"
 	apk "gitlab.alpinelinux.org/alpine/go/repository"
@@ -55,19 +58,32 @@ func TestEndToEndInstall(t *testing.T) {
 		t.Skipf("docker not installed: %v", err)
 	}
 
-	os := "linux"
+	goos := "linux"
 	for _, cpu := range yeettest.Arches {
 		if cpu == "riscv64" {
 			t.Skip("linux/riscv64 is not supported by this test")
 		}
 
-		platform := fmt.Sprintf("%s/%s", os, cpu)
+		platform := fmt.Sprintf("%s/%s", goos, cpu)
 		t.Run(platform, func(t *testing.T) {
-			fname := yeettest.BuildHello(t, Build, yeettest.BuildHelloInput{
+			// yeettest manipulates the internal.PackageDestDir global, t.Parallel will race
+			fname := yeettest.BuildCustomHello(t, Build, yeettest.BuildHelloInput{
 				Version: "1.0.0",
 				Fatal:   true,
-				GOOS:    os,
+				GOOS:    goos,
 				GOARCH:  cpu,
+			}, func(bi pkgmeta.BuildInput) {
+				err := errors.Join(
+					os.MkdirAll(bi.Bin, 0755),
+					os.MkdirAll(bi.Openrc.InitDir, 0755),
+					os.WriteFile(filepath.Join(bi.Bin, "yeet-0666"), nil, 0666),
+					os.WriteFile(filepath.Join(bi.Bin, "yeet-0777"), nil, 0777),
+					os.WriteFile(filepath.Join(bi.Openrc.InitDir, "yeet-0666"), nil, 0666),
+					os.WriteFile(filepath.Join(bi.Openrc.InitDir, "yeet-0777"), nil, 0777),
+				)
+				if err != nil {
+					t.Errorf("failed to build test package: %s", err)
+				}
 			})
 			pkgName := filepath.Base(fname)
 
@@ -87,7 +103,32 @@ func TestEndToEndInstall(t *testing.T) {
 
 			yeettest.RunScript(t, t.Context(), "docker", "cp", fname, fmt.Sprintf("%s:/tmp/%s", containerID, pkgName))
 			yeettest.RunScript(t, t.Context(), "docker", "exec", "-t", containerID, "apk", "add", "--allow-untrusted", fmt.Sprintf("/tmp/%[1]s", pkgName))
-			yeettest.RunScript(t, t.Context(), "docker", "exec", "-t", containerID, "/usr/bin/yeet-hello")
+
+			type testcase struct {
+				name string
+				args []string
+			}
+
+			testcases := []testcase{
+				// built binaries run
+				{name: "bin=yeet-hello", args: []string{"/usr/bin/yeet-hello"}},
+				// other executables run
+				{name: "bin=yeet-0777", args: []string{"test", "-x", "/usr/bin/yeet-0777"}},
+				// executable permission fix
+				{name: "bin=yeet-0666", args: []string{"test", "-x", "/usr/bin/yeet-0666"}},
+				// service script
+				{name: "initd=yeet-0777", args: []string{"test", "-x", "/etc/init.d/yeet-0777"}},
+				// service script permission fix
+				{name: "initd=yeet-0666", args: []string{"test", "-x", "/etc/init.d/yeet-0666"}},
+			}
+
+			for _, tc := range testcases {
+				t.Run(tc.name, func(t *testing.T) {
+					t.Parallel()
+					args := []string{"docker", "exec", "-t", containerID}
+					yeettest.RunScript(t, t.Context(), slices.Concat(args, tc.args)...)
+				})
+			}
 		})
 	}
 }

@@ -152,8 +152,8 @@ type BuildInput struct {
 }
 
 type Openrc struct {
-	InitDir string `json:"init"`
-	ConfDir string `json:"conf"`
+	InitDir string `json:"initd"`
+	ConfDir string `json:"confd"`
 }
 
 func (b BuildInput) String() string {

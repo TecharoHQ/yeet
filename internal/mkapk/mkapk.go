@@ -88,8 +88,8 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		return "", fmt.Errorf("mkapk: can't prepare for packager: %w", err)
 	}
 
-	for _, content := range contents {
-		content.FileInfo.MTime = internal.SourceEpoch()
+	if err := fixMetadata(contents); err != nil {
+		return "", fmt.Errorf("mkapk: can't fix file metadata: %w", err)
 	}
 
 	info := nfpm.WithDefaults(&nfpm.Info{
@@ -141,4 +141,31 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 	slog.Info("built package", "name", p.Name, "arch", p.Goarch, "version", p.Version, "path", fout.Name())
 
 	return fout.Name(), err
+}
+
+// fix file mtime and mode
+func fixMetadata(contents files.Contents) error {
+	for _, c := range contents {
+		// fix mtime
+		c.FileInfo.MTime = internal.SourceEpoch()
+
+		if c.Type == files.TypeFile {
+			// fix mode
+			dir := filepath.Dir(c.Destination)
+			if dir == "/etc/init.d" {
+				if c.FileInfo.Mode&0111 != 0111 {
+					slog.Warn("found non-executable OpenRC service script, setting executable bits", "path", c.Destination, "mode", fmt.Sprintf("0%o", c.FileInfo.Mode))
+				}
+				c.FileInfo.Mode |= 0111
+			}
+			if slices.Contains([]string{"/bin", "/sbin", "/usr/bin", "/usr/sbin"}, dir) {
+				if c.FileInfo.Mode&0111 != 0111 {
+					slog.Warn("found non-executable file in executables directory, setting executable bits", "path", c.Destination, "mode", fmt.Sprintf("0%o", c.FileInfo.Mode))
+				}
+				c.FileInfo.Mode |= 0111
+			}
+		}
+	}
+
+	return nil
 }

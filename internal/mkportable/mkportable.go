@@ -42,24 +42,17 @@ func Confext(p pkgmeta.Package) (foutpath string, err error) {
 
 // Maps GOARCH (key) to Systemd Architecture (value)
 var goToSystemd = map[string]string{
-	"amd64":   "x86_64",
-	"386":     "i386",
-	"arm":     "arm",
-	"arm64":   "arm64",
-	"loong64": "loongarch64",
-	"mips64":  "mips64",
-	// mips64le is standard in Go, but rarely explicit in basic systemd lists
-	// unless specified as mips64-le. Mapping to closest base if needed.
-	"ppc64": "powerpc64",
-	// ppc64le is the common Go arch for PowerPC 64 Little Endian.
-	// Standard systemd usually uses 'ppc64le' or 'powerpc64le'.
-	// Based on your list containing 'powerpc64', we map standard ppc64 to that.
-	"ppc":     "powerpc",
-	"riscv64": "riscv64",
-	"riscv":   "riscv32", // generic riscv often maps to 32 in older definitions
-	"s390x":   "s390x",
-	"sparc64": "sparc", // Go uses sparc64, systemd uses sparc
-	"wasm":    "",      // No systemd equivalent
+	"amd64":    "x86-64",
+	"386":      "x86",
+	"arm":      "arm",
+	"arm64":    "arm64",
+	"loong64":  "loongarch64",
+	"mips64":   "mips64",
+	"mips64le": "mips64-le",
+	"ppc64":    "ppc64",
+	"ppc64le":  "ppc64-le",
+	"riscv64":  "riscv64",
+	"s390x":    "s390x",
 }
 
 func Sysext(p pkgmeta.Package) (foutpath string, err error) {

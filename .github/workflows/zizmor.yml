@@ -1,12 +1,12 @@
 name: zizmor
 
 on:
-    push:
-      paths:
-        - '.github/workflows/*.ya?ml'
-    pull_request:
-      paths:
-        - '.github/workflows/*.ya?ml'
+  push:
+    paths:
+      - ".github/workflows/*.ya?ml"
+  pull_request:
+    paths:
+      - ".github/workflows/*.ya?ml"
 
 jobs:
   zizmor:
@@ -24,9 +24,9 @@ jobs:
         uses: astral-sh/setup-uv@85856786d1ce8acfbcc2f13a5f3fbd6b938f9f41 # v7.1.2
 
       - name: Run zizmor 🌈
-        run: uvx zizmor --format sarif . > results.sarif 
+        run: uvx zizmor --format sarif . > results.sarif
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@0499de31b99561a6d14a36a5f662c2a54f91beee # v4.31.2

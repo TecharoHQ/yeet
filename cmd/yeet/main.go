@@ -17,6 +17,7 @@ import (
 	yeetver "github.com/TecharoHQ/yeet"
 	"github.com/TecharoHQ/yeet/confyg/flagconfyg"
 	"github.com/TecharoHQ/yeet/internal/gitea"
+	"github.com/TecharoHQ/yeet/internal/mkapk"
 	"github.com/TecharoHQ/yeet/internal/mkdeb"
 	"github.com/TecharoHQ/yeet/internal/mkportable"
 	"github.com/TecharoHQ/yeet/internal/mkrpm"
@@ -231,6 +232,17 @@ func main() {
 
 	vm.Set("log", map[string]any{
 		"println": fmt.Println,
+	})
+
+	vm.Set("apk", map[string]any{
+		"build": func(p pkgmeta.Package) string {
+			foutpath, err := mkapk.Build(p)
+			if err != nil {
+				panic(err)
+			}
+			return foutpath
+		},
+		"name": "apk",
 	})
 
 	vm.Set("rpm", map[string]any{

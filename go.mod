@@ -11,6 +11,8 @@ require (
 	github.com/dop251/goja v0.0.0-20250309171923-bcd7cc6bf64c
 	github.com/goreleaser/nfpm/v2 v2.43.4
 	github.com/pkg/errors v0.9.1
+	github.com/rogpeppe/go-internal v1.14.1
+	github.com/stretchr/testify v1.11.1
 	gitlab.alpinelinux.org/alpine/go v0.10.1
 	mvdan.cc/sh/v3 v3.12.0
 	pault.ag/go/debian v0.19.0
@@ -35,7 +37,6 @@ require (
 	github.com/cyphar/filepath-securejoin v0.4.1 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dlclark/regexp2 v1.11.4 // indirect
-	github.com/dpeckett/archivefs v0.11.1 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-git/go-billy/v5 v5.6.2 // indirect

@@ -11,8 +11,8 @@ import (
 	"github.com/Masterminds/semver/v3"
 	"github.com/TecharoHQ/yeet"
 	"github.com/TecharoHQ/yeet/internal"
+	"github.com/TecharoHQ/yeet/internal/erofs"
 	"github.com/TecharoHQ/yeet/internal/pkgmeta"
-	"github.com/dpeckett/archivefs/erofs"
 )
 
 const confextReleaseTemplate = `ID=_any

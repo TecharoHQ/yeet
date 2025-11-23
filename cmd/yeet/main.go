@@ -18,6 +18,7 @@ import (
 	"github.com/TecharoHQ/yeet/confyg/flagconfyg"
 	"github.com/TecharoHQ/yeet/internal/gitea"
 	"github.com/TecharoHQ/yeet/internal/mkdeb"
+	"github.com/TecharoHQ/yeet/internal/mkportable"
 	"github.com/TecharoHQ/yeet/internal/mkrpm"
 	"github.com/TecharoHQ/yeet/internal/mktarball"
 	"github.com/TecharoHQ/yeet/internal/pkgmeta"
@@ -169,6 +170,17 @@ func main() {
 		return result
 	})
 
+	vm.Set("confext", map[string]any{
+		"build": func(p pkgmeta.Package) string {
+			foutpath, err := mkportable.Confext(p)
+			if err != nil {
+				panic(err)
+			}
+			return foutpath
+		},
+		"name": "sysext",
+	})
+
 	vm.Set("deb", map[string]any{
 		"build": func(p pkgmeta.Package) string {
 			foutpath, err := mkdeb.Build(p)
@@ -230,6 +242,28 @@ func main() {
 			return foutpath
 		},
 		"name": "rpm",
+	})
+
+	vm.Set("portable", map[string]any{
+		"build": func(p pkgmeta.Package) string {
+			foutpath, err := mkportable.Portable(p)
+			if err != nil {
+				panic(err)
+			}
+			return foutpath
+		},
+		"name": "portable",
+	})
+
+	vm.Set("sysext", map[string]any{
+		"build": func(p pkgmeta.Package) string {
+			foutpath, err := mkportable.Sysext(p)
+			if err != nil {
+				panic(err)
+			}
+			return foutpath
+		},
+		"name": "sysext",
 	})
 
 	vm.Set("tarball", map[string]any{

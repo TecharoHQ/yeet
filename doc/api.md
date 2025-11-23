@@ -44,6 +44,54 @@ Usage:
 );
 ```
 
+## `confext`
+
+Helpers for building systemd configuration extension images.
+
+### `confext.build`
+
+Builds a systemd configuration extension image with a descriptor object. The configuration extension format allows you to extend systemd configuration files on a system without modifying the base files.
+
+The resulting configuration extension image path will be returned as a string.
+
+Usage:
+
+`confext.build(package);`
+
+For more information about configuration extensions, see the [systemd-sysext documentation](https://www.freedesktop.org/software/systemd/man/latest/systemd-sysext.html).
+
+## `portable`
+
+Helpers for building systemd portable service images.
+
+### `portable.build`
+
+Builds a systemd portable service image with a descriptor object. Portable services are a systemd feature that allows applications to be bundled with all their dependencies and deployed across multiple systemd systems.
+
+The resulting portable service image path will be returned as a string.
+
+Usage:
+
+`portable.build(package);`
+
+For more information about portable services, see the [systemd portable services documentation](https://systemd.io/PORTABLE_SERVICES/).
+
+## `sysext`
+
+Helpers for building systemd system extension images.
+
+### `sysext.build`
+
+Builds a systemd system extension image with a descriptor object. System extensions allow you to extend the system tree (`/usr`) with additional files without modifying the base system image.
+
+The resulting system extension image path will be returned as a string.
+
+Usage:
+
+`sysext.build(package);`
+
+For more information about system extensions, see the [systemd-sysext documentation](https://www.freedesktop.org/software/systemd/man/latest/systemd-sysext.html).
+
 ## `docker`
 
 Aliases for `docker` commands.

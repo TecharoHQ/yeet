@@ -1,10 +1,6 @@
 const pkgs = [];
 
-[
-  "amd64",
-  "arm64",
-  "ppc64le",
-].forEach((goarch) =>
+["amd64", "arm64", "ppc64le"].forEach((goarch) =>
   [apk, deb, rpm, tarball].forEach((method) => {
     pkgs.push(
       method.build({

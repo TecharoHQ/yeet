@@ -11,7 +11,9 @@ require (
 	github.com/dop251/goja v0.0.0-20250309171923-bcd7cc6bf64c
 	github.com/goreleaser/nfpm/v2 v2.43.4
 	github.com/pkg/errors v0.9.1
+	github.com/stretchr/testify v1.11.1
 	gitlab.alpinelinux.org/alpine/go v0.10.1
+	golang.org/x/mod v0.25.0
 	mvdan.cc/sh/v3 v3.12.0
 	pault.ag/go/debian v0.19.0
 )
@@ -70,7 +72,6 @@ require (
 	gitlab.com/digitalxero/go-conventional-commit v1.0.7 // indirect
 	golang.org/x/crypto v0.40.0 // indirect
 	golang.org/x/exp/typeparams v0.0.0-20231108232855-2478ac86f678 // indirect
-	golang.org/x/mod v0.25.0 // indirect
 	golang.org/x/net v0.41.0 // indirect
 	golang.org/x/sync v0.16.0 // indirect
 	golang.org/x/sys v0.34.0 // indirect

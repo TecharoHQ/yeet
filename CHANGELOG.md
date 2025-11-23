@@ -1,3 +1,15 @@
+# [0.8.0](https://github.com/TecharoHQ/yeet/compare/v0.7.0...v0.8.0) (2025-11-23)
+
+### Bug Fixes
+
+- **mkapk:** rename fields to initd/confd for consistency with alpine-sdk ([#61](https://github.com/TecharoHQ/yeet/issues/61)) ([f194f53](https://github.com/TecharoHQ/yeet/commit/f194f53367b83fd2d5aaf24e68ef510c1701df3e)), closes [TecharoHQ/yeet#58](https://github.com/TecharoHQ/yeet/issues/58)
+
+### Features
+
+- build confexts, portables, and sysexts ([#62](https://github.com/TecharoHQ/yeet/issues/62)) ([9aa3c2a](https://github.com/TecharoHQ/yeet/commit/9aa3c2a06ab5b79f9895e14e5480a4b9247c3c22))
+- **mkapk:** expose apk packaging builtin ([#58](https://github.com/TecharoHQ/yeet/issues/58)) ([f08c123](https://github.com/TecharoHQ/yeet/commit/f08c123094f5202fd7b92d1a9ec6fed4de8b00b4))
+- **mkapk:** fix potential missing executable mode bits ([#59](https://github.com/TecharoHQ/yeet/issues/59)) ([fd6d23e](https://github.com/TecharoHQ/yeet/commit/fd6d23edfc8de6fc7557ca3cb51ee097b42c6588))
+
 # [0.7.0](https://github.com/TecharoHQ/yeet/compare/v0.6.3...v0.7.0) (2025-11-07)
 
 ### Bug Fixes

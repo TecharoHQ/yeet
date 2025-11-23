@@ -19,8 +19,8 @@ import (
 	"testing"
 
 	"github.com/TecharoHQ/yeet/internal/erofs"
-	"github.com/rogpeppe/go-internal/dirhash"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/mod/sumdb/dirhash"
 )
 
 func TestEROFS(t *testing.T) {

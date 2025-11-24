@@ -1,3 +1,9 @@
+## [0.8.1](https://github.com/TecharoHQ/yeet/compare/v0.8.0...v0.8.1) (2025-11-24)
+
+### Bug Fixes
+
+- **mkportable:** copy documentation for sysexts ([#64](https://github.com/TecharoHQ/yeet/issues/64)) ([388ff94](https://github.com/TecharoHQ/yeet/commit/388ff949318d4b0ff841952ef97d82fab09df99d))
+
 # [0.8.0](https://github.com/TecharoHQ/yeet/compare/v0.7.0...v0.8.0) (2025-11-23)
 
 ### Bug Fixes

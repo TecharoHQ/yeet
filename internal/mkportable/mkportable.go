@@ -12,6 +12,7 @@ import (
 	"github.com/TecharoHQ/yeet"
 	"github.com/TecharoHQ/yeet/internal"
 	"github.com/TecharoHQ/yeet/internal/erofs"
+	"github.com/TecharoHQ/yeet/internal/mktarball"
 	"github.com/TecharoHQ/yeet/internal/pkgmeta"
 )
 
@@ -77,6 +78,30 @@ func Sysext(p pkgmeta.Package) (foutpath string, err error) {
 		}); err != nil {
 			panic(err) // caught by upstream
 		}
+
+		for _, d := range p.EmptyDirs {
+			if err := os.MkdirAll(filepath.Join(bi.Output, d), 0755); err != nil {
+				panic(err)
+			}
+		}
+
+		for src, dst := range p.ConfigFiles {
+			if err := mktarball.Copy(src, filepath.Join(bi.Output, dst)); err != nil {
+				panic(err)
+			}
+		}
+
+		for src, dst := range p.Documentation {
+			if err := mktarball.Copy(src, filepath.Join(bi.Doc, dst)); err != nil {
+				panic(err)
+			}
+		}
+
+		for src, dst := range p.Files {
+			if err := mktarball.Copy(src, filepath.Join(bi.Output, dst)); err != nil {
+				panic(err)
+			}
+		}
 	}
 
 	p.Build = buildFunc
@@ -95,6 +120,37 @@ func Portable(p pkgmeta.Package) (foutpath string, err error) {
 		os.MkdirAll(filepath.Join(bi.Output, "etc"), 0755)
 		os.WriteFile(filepath.Join(bi.Output, "etc", "resolv.conf"), nil, 0444)
 		os.WriteFile(filepath.Join(bi.Output, "etc", "machine-id"), nil, 0444)
+		os.MkdirAll(filepath.Join(bi.Output, "etc"), 0755)
+		os.MkdirAll(filepath.Join(bi.Output, "proc"), 0755)
+		os.MkdirAll(filepath.Join(bi.Output, "sys"), 0755)
+		os.MkdirAll(filepath.Join(bi.Output, "dev"), 0755)
+		os.MkdirAll(filepath.Join(bi.Output, "run"), 0755)
+		os.MkdirAll(filepath.Join(bi.Output, "tmp"), 0755)
+		os.MkdirAll(filepath.Join(bi.Output, "var", "tmp"), 0755)
+
+		for _, d := range p.EmptyDirs {
+			if err := os.MkdirAll(filepath.Join(bi.Output, d), 0755); err != nil {
+				panic(err)
+			}
+		}
+
+		for src, dst := range p.ConfigFiles {
+			if err := mktarball.Copy(src, filepath.Join(bi.Output, dst)); err != nil {
+				panic(err)
+			}
+		}
+
+		for src, dst := range p.Documentation {
+			if err := mktarball.Copy(src, filepath.Join(bi.Doc, dst)); err != nil {
+				panic(err)
+			}
+		}
+
+		for src, dst := range p.Files {
+			if err := mktarball.Copy(src, filepath.Join(bi.Output, dst)); err != nil {
+				panic(err)
+			}
+		}
 	}
 
 	p.Build = buildFunc
@@ -146,22 +202,16 @@ func build(p pkgmeta.Package) (foutpath string, err error) {
 	os.Setenv("GOOS", p.Platform)
 	os.Setenv("CGO_ENABLED", "0")
 
-	p.Build(pkgmeta.BuildInput{
+	bi := pkgmeta.BuildInput{
 		Output:  dir,
 		Bin:     filepath.Join(dir, "usr", "bin"),
 		Doc:     filepath.Join(dir, "usr", "share", "doc", p.Name),
 		Etc:     filepath.Join(dir, "etc", p.Name),
 		Man:     filepath.Join(dir, "usr", "share", "man"),
 		Systemd: filepath.Join(dir, "usr", "lib", "systemd", "system"),
-	})
+	}
 
-	os.MkdirAll(filepath.Join(dir, "etc"), 0755)
-	os.MkdirAll(filepath.Join(dir, "proc"), 0755)
-	os.MkdirAll(filepath.Join(dir, "sys"), 0755)
-	os.MkdirAll(filepath.Join(dir, "dev"), 0755)
-	os.MkdirAll(filepath.Join(dir, "run"), 0755)
-	os.MkdirAll(filepath.Join(dir, "tmp"), 0755)
-	os.MkdirAll(filepath.Join(dir, "var", "tmp"), 0755)
+	p.Build(bi)
 
 	foutpath = filepath.Join(*internal.PackageDestDir, fmt.Sprintf("%s_%s_%s.raw", p.Name, p.Version, p.Goarch))
 	fout, err := os.Create(foutpath)

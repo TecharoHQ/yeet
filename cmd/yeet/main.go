@@ -173,6 +173,10 @@ func main() {
 
 	vm.Set("confext", map[string]any{
 		"build": func(p pkgmeta.Package) string {
+			if p.Platform != "" && p.Platform != "linux" {
+				return ""
+			}
+
 			foutpath, err := mkportable.Confext(p)
 			if err != nil {
 				panic(err)
@@ -184,6 +188,10 @@ func main() {
 
 	vm.Set("deb", map[string]any{
 		"build": func(p pkgmeta.Package) string {
+			if p.Platform != "" && p.Platform != "linux" {
+				return ""
+			}
+
 			foutpath, err := mkdeb.Build(p)
 			if err != nil {
 				panic(err)
@@ -236,6 +244,10 @@ func main() {
 
 	vm.Set("apk", map[string]any{
 		"build": func(p pkgmeta.Package) string {
+			if p.Platform != "" && p.Platform != "linux" {
+				return ""
+			}
+
 			foutpath, err := mkapk.Build(p)
 			if err != nil {
 				panic(err)
@@ -247,6 +259,10 @@ func main() {
 
 	vm.Set("rpm", map[string]any{
 		"build": func(p pkgmeta.Package) string {
+			if p.Platform != "" && p.Platform != "linux" {
+				return ""
+			}
+
 			foutpath, err := mkrpm.Build(p)
 			if err != nil {
 				panic(err)
@@ -258,6 +274,10 @@ func main() {
 
 	vm.Set("portable", map[string]any{
 		"build": func(p pkgmeta.Package) string {
+			if p.Platform != "" && p.Platform != "linux" {
+				return ""
+			}
+
 			foutpath, err := mkportable.Portable(p)
 			if err != nil {
 				panic(err)
@@ -269,6 +289,10 @@ func main() {
 
 	vm.Set("sysext", map[string]any{
 		"build": func(p pkgmeta.Package) string {
+			if p.Platform != "" && p.Platform != "linux" {
+				return ""
+			}
+
 			foutpath, err := mkportable.Sysext(p)
 			if err != nil {
 				panic(err)

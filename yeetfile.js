@@ -1,26 +1,33 @@
 const pkgs = [];
 
 ["amd64", "arm64", "ppc64le"].forEach((goarch) =>
-  [apk, deb, rpm, sysext, tarball].forEach((method) => {
-    pkgs.push(
-      method.build({
-        name: "yeet",
-        description: "Yeet out scripts with maximum haste!",
-        homepage: "https://techaro.lol",
-        license: "MIT",
-        goarch,
+  ["linux", "windows"].forEach((platform) =>
+    [apk, deb, rpm, sysext, tarball].forEach((method) => {
+      if (goarch == "ppc64le" && platform == "windows") {
+        return;
+      }
 
-        documentation: {
-          "README.md": "README.md",
-          "doc/api.md": "api.md",
-        },
+      pkgs.push(
+        method.build({
+          name: "yeet",
+          description: "Yeet out scripts with maximum haste!",
+          homepage: "https://techaro.lol",
+          license: "MIT",
+          goarch,
+          platform,
 
-        build: ({ bin }) => {
-          $`go build -o ${bin}/yeet -trimpath  -ldflags '-buildid= -s -w -extldflags "-static" -X "github.com/TecharoHQ/yeet.Version=${git.tag()}" -X "github.com/TecharoHQ/yeet.BuildMethod=${method.name}"' ./cmd/yeet`;
-        },
-      }),
-    );
-  }),
+          documentation: {
+            "README.md": "README.md",
+            "doc/api.md": "api.md",
+          },
+
+          build: ({ bin }) => {
+            $`go build -o ${bin}/yeet -trimpath  -ldflags '-buildid= -s -w -extldflags "-static" -X "github.com/TecharoHQ/yeet.Version=${git.tag()}" -X "github.com/TecharoHQ/yeet.BuildMethod=${method.name}"' ./cmd/yeet`;
+          },
+        }),
+      );
+    }),
+  ),
 );
 
 tarball.build({

@@ -127,7 +127,7 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		return "", fmt.Errorf("can't copy built files to tarball: %w", err)
 	}
 
-	slog.Info("built package", "name", p.Name, "arch", p.Goarch, "version", p.Version, "path", fout.Name())
+	slog.Info("built package", "name", p.Name, "arch", p.Goarch, "platform", p.Platform, "version", p.Version, "path", fout.Name())
 
 	return fname, nil
 }

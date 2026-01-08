@@ -18,7 +18,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/TecharoHQ/yeet/internal/erofs"
+	"github.com/TecharoHQ/yeet/erofs"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/mod/sumdb/dirhash"
 )

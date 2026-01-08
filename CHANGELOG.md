@@ -1,3 +1,9 @@
+# [0.9.0](https://github.com/TecharoHQ/yeet/compare/v0.8.1...v0.9.0) (2026-01-08)
+
+### Features
+
+- expose erofs ([#72](https://github.com/TecharoHQ/yeet/issues/72)) ([05676d6](https://github.com/TecharoHQ/yeet/commit/05676d64a0c16157b81a70505d68861b52b6aa24))
+
 ## [0.8.1](https://github.com/TecharoHQ/yeet/compare/v0.8.0...v0.8.1) (2025-11-24)
 
 ### Bug Fixes

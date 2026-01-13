@@ -208,23 +208,39 @@ func (fsys *Filesystem) resolve(name string, noResolveLastSymlink bool) (*dirEnt
 type file struct {
 	image *Image
 	de    *dirEntry
-	r     io.Reader
+	rs    io.ReadSeeker
 }
 
 func (f *file) Read(p []byte) (int, error) {
-	if f.r == nil {
+	if f.rs == nil {
 		ino, err := f.de.getInode()
 		if err != nil {
 			return 0, err
 		}
 
-		f.r, err = ino.Data()
+		f.rs, err = ino.DataSeeker()
 		if err != nil {
 			return 0, err
 		}
 	}
 
-	return f.r.Read(p)
+	return f.rs.Read(p)
+}
+
+func (f *file) Seek(offset int64, whence int) (int64, error) {
+	if f.rs == nil {
+		ino, err := f.de.getInode()
+		if err != nil {
+			return 0, err
+		}
+
+		f.rs, err = ino.DataSeeker()
+		if err != nil {
+			return 0, err
+		}
+	}
+
+	return f.rs.Seek(offset, whence)
 }
 
 func (f *file) Close() error {

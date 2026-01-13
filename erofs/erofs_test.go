@@ -209,6 +209,62 @@ func TestEROFS(t *testing.T) {
 		}, paths[:5])
 	})
 
+	t.Run("Seek", func(t *testing.T) {
+		f, err := fsys.Open("/usr/bin/toybox")
+		require.NoError(t, err)
+		t.Cleanup(func() {
+			require.NoError(t, f.Close())
+		})
+
+		// Verify the file implements io.Seeker
+		_, ok := f.(io.Seeker)
+		require.True(t, ok, "file should implement io.Seeker")
+
+		// Test SeekStart - seek to beginning
+		pos, err := f.(io.Seeker).Seek(0, io.SeekStart)
+		require.NoError(t, err)
+		require.Equal(t, int64(0), pos)
+
+		// Read first 4 bytes (ELF magic)
+		buf := make([]byte, 4)
+		n, err := f.Read(buf)
+		require.NoError(t, err)
+		require.Equal(t, 4, n)
+		require.Equal(t, []byte{0x7f, 'E', 'L', 'F'}, buf)
+
+		// Seek back to beginning
+		pos, err = f.(io.Seeker).Seek(0, io.SeekStart)
+		require.NoError(t, err)
+		require.Equal(t, int64(0), pos)
+
+		// Read the first 4 bytes again to verify we're at the beginning
+		n, err = f.Read(buf)
+		require.NoError(t, err)
+		require.Equal(t, 4, n)
+		require.Equal(t, []byte{0x7f, 'E', 'L', 'F'}, buf)
+
+		// Test SeekCurrent - seek forward from current position
+		pos, err = f.(io.Seeker).Seek(4, io.SeekCurrent)
+		require.NoError(t, err)
+		require.Equal(t, int64(8), pos)
+
+		// Read 4 more bytes
+		n, err = f.Read(buf)
+		require.NoError(t, err)
+		require.Equal(t, 4, n)
+
+		// Test SeekEnd - seek from end
+		info, _ := f.Stat()
+		pos, err = f.(io.Seeker).Seek(-4, io.SeekEnd)
+		require.NoError(t, err)
+		require.Equal(t, info.Size()-4, pos)
+
+		// Read last 4 bytes
+		n, err = f.Read(buf)
+		require.NoError(t, err)
+		require.Equal(t, 4, n)
+	})
+
 	t.Run("DirHash", func(t *testing.T) {
 		var files []string
 		err = fs.WalkDir(fsys, ".", func(file string, d fs.DirEntry, err error) error {

@@ -631,6 +631,41 @@ func (ino *Inode) Data() (io.Reader, error) {
 	}
 }
 
+// DataSeeker returns the read-only file data of this inode as an io.ReadSeeker.
+func (ino *Inode) DataSeeker() (io.ReadSeeker, error) {
+	switch dataLayout := ino.DataLayout(); dataLayout {
+	case InodeDataLayoutFlatPlain:
+		// SectionReader already implements ReadSeeker.
+		return io.NewSectionReader(ino.image.src, int64(ino.dataOff), int64(ino.size)), nil
+
+	case InodeDataLayoutFlatInline:
+		// For inline data, we need to read it all into memory since MultiReader
+		// doesn't support seeking. This is acceptable for inline data as it's
+		// small (fits within a single block, typically <= 4KB).
+		var buf []byte
+		idataSize := ino.size & (uint64(ino.image.BlockSize()) - 1)
+		if ino.size > idataSize {
+			// Read the main data part.
+			mainSize := ino.size - idataSize
+			mainData := make([]byte, mainSize)
+			if _, err := io.ReadFull(io.NewSectionReader(ino.image.src, int64(ino.dataOff), int64(mainSize)), mainData); err != nil {
+				return nil, err
+			}
+			buf = append(buf, mainData...)
+		}
+		// Read the inline data part.
+		idata := make([]byte, idataSize)
+		if _, err := io.ReadFull(io.NewSectionReader(ino.image.src, int64(ino.idataOff), int64(idataSize)), idata); err != nil {
+			return nil, err
+		}
+		buf = append(buf, idata...)
+		return bytes.NewReader(buf), nil
+
+	default:
+		return nil, errors.New("unsupported data layout")
+	}
+}
+
 // blockData represents the information of the data in a block.
 type blockData struct {
 	// base indicates the data offset within the image.

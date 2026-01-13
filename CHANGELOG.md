@@ -1,3 +1,9 @@
+# [0.10.0](https://github.com/TecharoHQ/yeet/compare/v0.9.0...v0.10.0) (2026-01-13)
+
+### Features
+
+- **erofs:** add seeking support to file handles ([#73](https://github.com/TecharoHQ/yeet/issues/73)) ([e9bc3b6](https://github.com/TecharoHQ/yeet/commit/e9bc3b6d8c76a29852dc77b93a4719c288eb5030))
+
 # [0.9.0](https://github.com/TecharoHQ/yeet/compare/v0.8.1...v0.9.0) (2026-01-08)
 
 ### Features

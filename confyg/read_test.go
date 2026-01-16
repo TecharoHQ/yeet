@@ -7,9 +7,10 @@ package confyg
 import (
 	"bytes"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"testing"
+
+	"github.com/pmezard/go-difflib/difflib"
 )
 
 // Test that reading and then writing the golden files
@@ -49,39 +50,32 @@ func testPrint(t *testing.T, in, out string) {
 
 	ndata := Format(f)
 
-	if !bytes.Equal(ndata, golden) {
+	normalizedGolden := normalizeNewlines(golden)
+	normalizedOutput := normalizeNewlines(ndata)
+
+	if !bytes.Equal(normalizedOutput, normalizedGolden) {
 		t.Errorf("formatted %s incorrectly: diff shows -golden, +ours", base)
-		tdiff(t, string(golden), string(ndata))
+		tdiff(t, string(normalizedGolden), string(normalizedOutput))
 		return
 	}
 }
 
 // diff returns the output of running diff on b1 and b2.
 func diff(b1, b2 []byte) (data []byte, err error) {
-	f1, err := os.CreateTemp("", "testdiff")
+	ud := difflib.UnifiedDiff{
+		A:        difflib.SplitLines(string(b1)),
+		B:        difflib.SplitLines(string(b2)),
+		FromFile: "golden",
+		ToFile:   "ours",
+		Context:  3,
+	}
+
+	text, err := difflib.GetUnifiedDiffString(ud)
 	if err != nil {
 		return nil, err
 	}
-	defer os.Remove(f1.Name())
-	defer f1.Close()
 
-	f2, err := os.CreateTemp("", "testdiff")
-	if err != nil {
-		return nil, err
-	}
-	defer os.Remove(f2.Name())
-	defer f2.Close()
-
-	f1.Write(b1)
-	f2.Write(b2)
-
-	data, err = exec.Command("diff", "-u", f1.Name(), f2.Name()).CombinedOutput()
-	if len(data) > 0 {
-		// diff exits with a non-zero status when the files don't match.
-		// Ignore that failure as long as we get output.
-		err = nil
-	}
-	return
+	return []byte(text), nil
 }
 
 // tdiff logs the diff output to t.Error.
@@ -92,4 +86,13 @@ func tdiff(t *testing.T, a, b string) {
 		return
 	}
 	t.Error(string(data))
+}
+
+func normalizeNewlines(in []byte) []byte {
+	if len(in) == 0 {
+		return in
+	}
+
+	out := bytes.ReplaceAll(in, []byte("\r\n"), []byte("\n"))
+	return bytes.ReplaceAll(out, []byte("\r"), []byte("\n"))
 }

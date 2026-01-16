@@ -18,7 +18,7 @@ import (
 	"io/fs"
 	"math"
 	"os"
-	"path/filepath"
+	pathpkg "path"
 )
 
 const (
@@ -342,11 +342,11 @@ func (w *writer) dataForInode(path string, ino any) (io.ReadCloser, int64, error
 		}
 
 		for _, de := range entries {
-			path := filepath.Clean(filepath.Join(path, de.Name()))
+			childPath := pathpkg.Clean(pathpkg.Join(path, de.Name()))
 
-			ino, ok := w.inodes[path]
+			ino, ok := w.inodes[childPath]
 			if !ok {
-				return nil, 0, fmt.Errorf("failed to find inode for path %q", path)
+				return nil, 0, fmt.Errorf("failed to find inode for path %q", childPath)
 			}
 
 			var nid uint32

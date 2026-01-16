@@ -218,6 +218,7 @@ func build(p pkgmeta.Package) (foutpath string, err error) {
 	if err != nil {
 		return "", err
 	}
+	defer fout.Close()
 
 	if err := erofs.Create(fout, os.DirFS(dir)); err != nil {
 		return "", err

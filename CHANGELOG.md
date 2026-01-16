@@ -1,3 +1,9 @@
+## [0.10.1](https://github.com/TecharoHQ/yeet/compare/v0.10.0...v0.10.1) (2026-01-16)
+
+### Bug Fixes
+
+- support CI and usage on Windows ([#76](https://github.com/TecharoHQ/yeet/issues/76)) ([6bfbf08](https://github.com/TecharoHQ/yeet/commit/6bfbf0848d4f698ff2d338146f070e671335ec3a)), closes [#75](https://github.com/TecharoHQ/yeet/issues/75) [#77](https://github.com/TecharoHQ/yeet/issues/77)
+
 # [0.10.0](https://github.com/TecharoHQ/yeet/compare/v0.9.0...v0.10.0) (2026-01-13)
 
 ### Features

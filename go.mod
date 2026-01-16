@@ -1,6 +1,6 @@
 module github.com/TecharoHQ/yeet
 
-go 1.25
+go 1.24
 
 require (
 	al.essio.dev/pkg/shellescape v1.6.0
@@ -9,7 +9,7 @@ require (
 	github.com/Songmu/gitconfig v0.2.1
 	github.com/cavaliergopher/rpm v1.3.0
 	github.com/dop251/goja v0.0.0-20250309171923-bcd7cc6bf64c
-	github.com/goreleaser/nfpm/v2 v2.43.4
+	github.com/goreleaser/nfpm/v2 v2.43.1
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.11.1
 	gitlab.alpinelinux.org/alpine/go v0.10.1
@@ -49,7 +49,7 @@ require (
 	github.com/google/rpmpack v0.7.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/goreleaser/chglog v0.7.3 // indirect
-	github.com/goreleaser/fileglob v1.4.0 // indirect
+	github.com/goreleaser/fileglob v1.3.0 // indirect
 	github.com/huandu/xstrings v1.5.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect

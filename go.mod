@@ -1,6 +1,6 @@
 module github.com/TecharoHQ/yeet
 
-go 1.25
+go 1.24
 
 require (
 	al.essio.dev/pkg/shellescape v1.6.0

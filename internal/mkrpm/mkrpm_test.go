@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 
@@ -58,6 +59,9 @@ func TestBuildError(t *testing.T) {
 }
 
 func TestEndToEndInstall(t *testing.T) {
+	if runtime.GOOS != "linux" {
+		t.Skip("test only runs on linux")
+	}
 	if _, err := exec.LookPath("docker"); err != nil {
 		t.Skipf("docker not installed: %v", err)
 	}

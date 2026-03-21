@@ -124,6 +124,20 @@ docker.push("ghcr.io/xe/site/bin");
 
 ## `file`
 
+### `file.glob`
+
+Returns an array of file paths matching a glob pattern relative to the current working directory. Supports standard glob wildcards (`*`, `?`, `[...]`) and `**` for recursive directory matching.
+
+Usage:
+
+`file.glob(pattern);`
+
+```js
+const goFiles = file.glob("**/*.go");
+const configs = file.glob("*.json");
+const srcOnly = file.glob("src/**/*.ts");
+```
+
 ### `file.install`
 
 Copies from a file from one place to another whilst preserving the file mode, analogous to `install -d` on Linux. Automatically creates directories in the `dest` path if they don't exist already.

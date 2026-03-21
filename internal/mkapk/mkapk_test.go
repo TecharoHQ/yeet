@@ -29,6 +29,9 @@ func TestBuild(t *testing.T) {
 		Version:  "1.0.0",
 		KeyFname: keyFname,
 		Fatal:    true,
+
+		GOOS:   "linux",
+		GOARCH: "amd64",
 	})
 	apkFile, err := os.Open(fname)
 	if err != nil {

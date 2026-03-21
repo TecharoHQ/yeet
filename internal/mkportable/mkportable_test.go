@@ -20,6 +20,9 @@ func TestBuild(t *testing.T) {
 		KeyFname: keyFname,
 		KeyID:    keyID,
 		Fatal:    true,
+
+		GOOS:   "linux",
+		GOARCH: "amd64",
 	})
 	t.Log(fname)
 }

@@ -16,6 +16,7 @@ import (
 	"al.essio.dev/pkg/shellescape"
 	yeetver "github.com/TecharoHQ/yeet"
 	"github.com/TecharoHQ/yeet/confyg/flagconfyg"
+	"github.com/TecharoHQ/yeet/internal/fileglob"
 	"github.com/TecharoHQ/yeet/internal/gitea"
 	"github.com/TecharoHQ/yeet/internal/mkapk"
 	"github.com/TecharoHQ/yeet/internal/mkdeb"
@@ -118,6 +119,14 @@ func runShellCommand(ctx context.Context, literals []string, exprs ...any) (stri
 	return buf.String(), nil
 }
 
+func fileGlob(pattern string) []string {
+	matches, err := fileglob.Glob(pattern)
+	if err != nil {
+		panic(err)
+	}
+	return matches
+}
+
 func hostname() string {
 	result, err := os.Hostname()
 	if err != nil {
@@ -205,6 +214,7 @@ func main() {
 				panic(err)
 			}
 		},
+		"glob": fileGlob,
 	})
 
 	vm.Set("git", map[string]any{

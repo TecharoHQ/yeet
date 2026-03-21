@@ -2,6 +2,7 @@ package mktarball
 
 import (
 	"archive/tar"
+	"archive/zip"
 	"compress/gzip"
 	"fmt"
 	"io"
@@ -61,21 +62,17 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 	pkgDir := filepath.Join(dir, folderName)
 	os.MkdirAll(pkgDir, 0755)
 
-	fname := filepath.Join(*internal.PackageDestDir, folderName+".tar.gz")
+	ext := ".tar.gz"
+	if p.Platform == "windows" {
+		ext = ".zip"
+	}
+
+	fname := filepath.Join(*internal.PackageDestDir, folderName+ext)
 	fout, err := os.Create(fname)
 	if err != nil {
 		return "", fmt.Errorf("can't make output file: %w", err)
 	}
 	defer fout.Close()
-
-	gw, err := gzip.NewWriterLevel(fout, 9)
-	if err != nil {
-		return "", fmt.Errorf("can't make gzip writer: %w", err)
-	}
-	defer gw.Close()
-
-	tw := tar.NewWriter(gw)
-	defer tw.Close()
 
 	cgoEnabled := os.Getenv("CGO_ENABLED")
 	defer func() {
@@ -123,11 +120,31 @@ func Build(p pkgmeta.Package) (foutpath string, err error) {
 		return "", fmt.Errorf("can't open root FS %s: %w", dir, err)
 	}
 
-	if err := tw.AddFS(vfs.ModTimeFS{FS: root.FS(), Time: internal.SourceEpoch()}); err != nil {
-		return "", fmt.Errorf("can't copy built files to tarball: %w", err)
+	modFS := vfs.ModTimeFS{FS: root.FS(), Time: internal.SourceEpoch()}
+
+	if p.Platform == "windows" {
+		zw := zip.NewWriter(fout)
+		defer zw.Close()
+
+		if err := zw.AddFS(modFS); err != nil {
+			return "", fmt.Errorf("can't copy built files to zip: %w", err)
+		}
+	} else {
+		gw, err := gzip.NewWriterLevel(fout, 9)
+		if err != nil {
+			return "", fmt.Errorf("can't make gzip writer: %w", err)
+		}
+		defer gw.Close()
+
+		tw := tar.NewWriter(gw)
+		defer tw.Close()
+
+		if err := tw.AddFS(modFS); err != nil {
+			return "", fmt.Errorf("can't copy built files to tarball: %w", err)
+		}
 	}
 
-	slog.Info("built package", "name", p.Name, "arch", p.Goarch, "version", p.Version, "path", fout.Name())
+	slog.Info("built package", "name", p.Name, "arch", p.Goarch, "platform", p.Platform, "version", p.Version, "path", fout.Name())
 
 	return fname, nil
 }

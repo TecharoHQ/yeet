@@ -27,6 +27,9 @@ func TestBuild(t *testing.T) {
 		KeyFname: keyFname,
 		KeyID:    keyID,
 		Fatal:    true,
+
+		GOOS:   "linux",
+		GOARCH: "amd64",
 	})
 	debFile, close, err := deb.LoadFile(fname)
 	if err != nil {

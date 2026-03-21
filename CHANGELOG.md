@@ -1,3 +1,9 @@
+# [0.11.0](https://github.com/TecharoHQ/yeet/compare/v0.10.1...v0.11.0) (2026-03-21)
+
+### Features
+
+- build tarballs for windows ([#67](https://github.com/TecharoHQ/yeet/issues/67)) ([95bc6e6](https://github.com/TecharoHQ/yeet/commit/95bc6e6441a6b12a6856d7b56a4f63f27b44f44e))
+
 ## [0.10.1](https://github.com/TecharoHQ/yeet/compare/v0.10.0...v0.10.1) (2026-01-16)
 
 ### Bug Fixes

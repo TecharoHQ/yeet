@@ -10,7 +10,7 @@ import (
 // In addition to standard filepath.Match wildcards (*, ?, [...]) it supports
 // ** to match zero or more directories.
 func Glob(pattern string) ([]string, error) {
-	if !strings.Contains(pattern, "**") {
+	if !hasDoubleStarSegment(pattern) {
 		return filepath.Glob(pattern)
 	}
 
@@ -20,6 +20,10 @@ func Glob(pattern string) ([]string, error) {
 	err := filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
+		}
+
+		if d.IsDir() {
+			return nil
 		}
 
 		matched, matchErr := Match(pattern, filepath.ToSlash(path))
@@ -35,12 +39,26 @@ func Glob(pattern string) ([]string, error) {
 	return matches, err
 }
 
+// hasDoubleStarSegment reports whether pattern contains a "**" as a
+// complete path segment (i.e. between slashes or at start/end), which is
+// the only position where Match treats it specially.
+func hasDoubleStarSegment(pattern string) bool {
+	for seg := range strings.SplitSeq(filepath.ToSlash(pattern), "/") {
+		if seg == "**" {
+			return true
+		}
+	}
+	return false
+}
+
 // Match reports whether name matches the glob pattern.
 // The pattern may use ** to match zero or more path segments.
+// Both pattern and name are normalized to forward slashes before matching
+// so that callers on Windows can pass either separator.
 func Match(pattern, name string) (bool, error) {
 	return matchParts(
-		strings.Split(pattern, "/"),
-		strings.Split(name, "/"),
+		strings.Split(filepath.ToSlash(pattern), "/"),
+		strings.Split(filepath.ToSlash(name), "/"),
 	)
 }
 

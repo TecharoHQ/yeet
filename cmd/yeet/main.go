@@ -124,6 +124,9 @@ func fileGlob(pattern string) []string {
 	if err != nil {
 		panic(err)
 	}
+	if matches == nil {
+		return []string{}
+	}
 	return matches
 }
 

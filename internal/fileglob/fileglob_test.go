@@ -67,9 +67,18 @@ func TestGlob(t *testing.T) {
 	}
 
 	// chdir so relative patterns work against our temp tree
-	orig, _ := os.Getwd()
-	t.Cleanup(func() { os.Chdir(orig) })
-	os.Chdir(tmp)
+	orig, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("Getwd: %v", err)
+	}
+	t.Cleanup(func() {
+		if err := os.Chdir(orig); err != nil {
+			t.Errorf("restoring working directory: %v", err)
+		}
+	})
+	if err := os.Chdir(tmp); err != nil {
+		t.Fatalf("Chdir(%s): %v", tmp, err)
+	}
 
 	for _, tt := range []struct {
 		name    string

@@ -20,7 +20,7 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@8bcbfa880644de056b8e6bb1c583cb2f4362c6bb
 
       - name: Setup Homebrew cellar cache
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
             /home/linuxbrew/.linuxbrew/Cellar
@@ -41,7 +41,7 @@ jobs:
           brew bundle
 
       - name: Setup Golang caches
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
             ~/.cache/go-build
@@ -50,7 +50,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-golang-
 
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
       - name: release
         env:
           GITHUB_TOKEN: ${{ secrets.TECHAROHQ_HACK_WRITE_TOKEN }}

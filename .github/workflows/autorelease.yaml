@@ -15,6 +15,6 @@ jobs:
     steps:
       - name: "Cut release if 'Release-Status: cut' in commit message"
         if: "${{ github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, 'Release-status: cut') }}"
-        uses: benc-uk/workflow-dispatch@7a027648b88c2413826b6ddd6c76114894dc5ec4 # v1.3.1
+        uses: benc-uk/workflow-dispatch@31e2b3319479a63f0ab15bf800eff9e913504e26 # v1.3.2
         with:
           workflow: "release.yaml"

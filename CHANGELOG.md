@@ -1,3 +1,9 @@
+# [0.12.0](https://github.com/TecharoHQ/yeet/compare/v0.11.0...v0.12.0) (2026-07-10)
+
+### Features
+
+- **file:** add file.glob() to yeetfile JS API ([#87](https://github.com/TecharoHQ/yeet/issues/87)) ([2538bfe](https://github.com/TecharoHQ/yeet/commit/2538bfe98fa19e0fed464c7f31d65e276a5f4646))
+
 # [0.11.0](https://github.com/TecharoHQ/yeet/compare/v0.10.1...v0.11.0) (2026-03-21)
 
 ### Features

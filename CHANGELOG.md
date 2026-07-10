@@ -1,3 +1,9 @@
+## [0.12.1](https://github.com/TecharoHQ/yeet/compare/v0.12.0...v0.12.1) (2026-07-10)
+
+### Bug Fixes
+
+- **mkportable:** ensure builds have non-zero byte count ([#103](https://github.com/TecharoHQ/yeet/issues/103)) ([c06fa8a](https://github.com/TecharoHQ/yeet/commit/c06fa8a844ecd9feac134014e73f32bae1a72757))
+
 # [0.12.0](https://github.com/TecharoHQ/yeet/compare/v0.11.0...v0.12.0) (2026-07-10)
 
 ### Features

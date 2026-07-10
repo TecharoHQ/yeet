@@ -5,17 +5,24 @@ import (
 	"testing"
 
 	"github.com/TecharoHQ/yeet/internal/gpgtest"
+	"github.com/TecharoHQ/yeet/internal/pkgmeta"
 	"github.com/TecharoHQ/yeet/internal/yeettest"
 )
 
 func TestBuild(t *testing.T) {
+	const method = "test"
+
+	myBuild := func(p pkgmeta.Package) (string, error) {
+		return build(p, method)
+	}
+
 	keyFname := filepath.Join(t.TempDir(), "foo.gpg")
 	keyID, err := gpgtest.MakeKey(t.Context(), keyFname)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	fname := yeettest.BuildHello(t, build, yeettest.BuildHelloInput{
+	fname := yeettest.BuildHello(t, myBuild, yeettest.BuildHelloInput{
 		Version:  "1.0.0",
 		KeyFname: keyFname,
 		KeyID:    keyID,
@@ -28,7 +35,13 @@ func TestBuild(t *testing.T) {
 }
 
 func TestBuildError(t *testing.T) {
-	yeettest.BuildHello(t, build, yeettest.BuildHelloInput{
+	const method = "test"
+
+	myBuild := func(p pkgmeta.Package) (string, error) {
+		return build(p, method)
+	}
+
+	yeettest.BuildHello(t, myBuild, yeettest.BuildHelloInput{
 		Version: ".0.0",
 		Fatal:   false,
 	})

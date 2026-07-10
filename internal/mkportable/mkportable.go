@@ -10,10 +10,10 @@ import (
 
 	"github.com/Masterminds/semver/v3"
 	"github.com/TecharoHQ/yeet"
-	"github.com/TecharoHQ/yeet/erofs"
 	"github.com/TecharoHQ/yeet/internal"
 	"github.com/TecharoHQ/yeet/internal/mktarball"
 	"github.com/TecharoHQ/yeet/internal/pkgmeta"
+	"github.com/Xe/erofs"
 )
 
 const confextReleaseTemplate = `ID=_any
@@ -38,7 +38,7 @@ func Confext(p pkgmeta.Package) (foutpath string, err error) {
 
 	p.Build = buildFunc
 
-	return build(p)
+	return build(p, "confext")
 }
 
 // Maps GOARCH (key) to Systemd Architecture (value)
@@ -106,7 +106,7 @@ func Sysext(p pkgmeta.Package) (foutpath string, err error) {
 
 	p.Build = buildFunc
 
-	return build(p)
+	return build(p, "sysext")
 }
 
 func Portable(p pkgmeta.Package) (foutpath string, err error) {
@@ -155,10 +155,10 @@ func Portable(p pkgmeta.Package) (foutpath string, err error) {
 
 	p.Build = buildFunc
 
-	return build(p)
+	return build(p, "portable")
 }
 
-func build(p pkgmeta.Package) (foutpath string, err error) {
+func build(p pkgmeta.Package, method string) (foutpath string, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			if err, ok := r.(error); ok {
@@ -213,14 +213,23 @@ func build(p pkgmeta.Package) (foutpath string, err error) {
 
 	p.Build(bi)
 
-	foutpath = filepath.Join(*internal.PackageDestDir, fmt.Sprintf("%s_%s_%s.raw", p.Name, p.Version, p.Goarch))
+	foutpath = filepath.Join(*internal.PackageDestDir, fmt.Sprintf("%s_%s_%s_%s.raw", p.Name, p.Version, p.Goarch, method))
 	fout, err := os.Create(foutpath)
 	if err != nil {
 		return "", err
 	}
 	defer fout.Close()
 
-	if err := erofs.Create(fout, os.DirFS(dir)); err != nil {
+	opts := []erofs.BuildOption{
+		erofs.WithBlockSize(12),
+		erofs.WithEpoch(internal.SourceEpoch()),
+		erofs.WithCompression(erofs.CompressionAutoLZ4),
+	}
+
+	b := erofs.NewBuilder(fout, opts...)
+	dirFS := os.DirFS(dir)
+
+	if err := b.AddFromFS(dirFS); err != nil {
 		return "", err
 	}
 

@@ -429,3 +429,23 @@ tarball.build({
   // ...
 });
 ```
+
+### Filtering builds
+
+To build only some of the packages in a yeetfile, pass a [CEL](https://cel.dev) expression with the `--filter` flag. A package is built only when the expression is true for it:
+
+```text
+yeet --filter 'goos == "linux" && method == "deb" && goarch == "amd64"'
+```
+
+The expression can use these string variables:
+
+| Name     | Value                                                                                                           |
+| :------- | :-------------------------------------------------------------------------------------------------------------- |
+| `method` | The name of the build method: `apk`, `confext`, `deb`, `portable`, `rpm`, `sysext`, or `tarball`.               |
+| `goos`   | The `platform` of the package. If the package does not set `platform`, the value is `linux`.                    |
+| `goarch` | The `goarch` of the package. If the package does not set `goarch`, the value is the GOARCH of the host machine. |
+
+The expression MUST evaluate to a boolean. If the expression is not valid, yeet exits with an error before it runs the yeetfile.
+
+When the filter does not match a package, the `build` method of the build method object returns an empty string and the `build` function of the package does not run. Other code in the yeetfile still runs, so make sure code that uses the returned path can handle an empty string.

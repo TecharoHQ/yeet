@@ -17,6 +17,7 @@ import (
 	yeetver "github.com/TecharoHQ/yeet"
 	"github.com/TecharoHQ/yeet/confyg/flagconfyg"
 	"github.com/TecharoHQ/yeet/internal/fileglob"
+	"github.com/TecharoHQ/yeet/internal/filter"
 	"github.com/TecharoHQ/yeet/internal/gitea"
 	"github.com/TecharoHQ/yeet/internal/mkapk"
 	"github.com/TecharoHQ/yeet/internal/mkdeb"
@@ -31,9 +32,10 @@ import (
 )
 
 var (
-	config  = flag.String("config", configFileLocation(), "configuration file, if set (see flagconfyg(4))")
-	fname   = flag.String("fname", "yeetfile.js", "filename for the yeetfile")
-	version = flag.Bool("version", false, "if set, print version of yeet and exit")
+	config     = flag.String("config", configFileLocation(), "configuration file, if set (see flagconfyg(4))")
+	filterExpr = flag.String("filter", "", "CEL expression over method, goos, and goarch; only matching packages are built")
+	fname      = flag.String("fname", "yeetfile.js", "filename for the yeetfile")
+	version    = flag.Bool("version", false, "if set, print version of yeet and exit")
 )
 
 func configFileLocation() string {
@@ -146,6 +148,48 @@ func gitVersion() string {
 	return vers
 }
 
+// linuxOnly wraps a package build function so that it returns an empty
+// string without building when the package targets another platform.
+func linuxOnly(build func(pkgmeta.Package) (string, error)) func(pkgmeta.Package) (string, error) {
+	return func(p pkgmeta.Package) (string, error) {
+		if p.Platform != "" && p.Platform != "linux" {
+			return "", nil
+		}
+		return build(p)
+	}
+}
+
+// packageBuilder wraps a package build function for use in the yeetfile. It
+// returns an empty string without building when f does not match.
+func packageBuilder(f *filter.Filter, method string, build func(pkgmeta.Package) (string, error)) func(pkgmeta.Package) string {
+	return func(p pkgmeta.Package) string {
+		goos := p.Platform
+		if goos == "" {
+			goos = "linux"
+		}
+
+		goarch := p.Goarch
+		if goarch == "" {
+			goarch = runtime.GOARCH
+		}
+
+		ok, err := f.Match(method, goos, goarch)
+		if err != nil {
+			panic(err)
+		}
+		if !ok {
+			slog.Debug("skipping package, filter does not match", "name", p.Name, "method", method, "goos", goos, "goarch", goarch)
+			return ""
+		}
+
+		foutpath, err := build(p)
+		if err != nil {
+			panic(err)
+		}
+		return foutpath
+	}
+}
+
 func main() {
 	flag.Parse()
 	ctx := context.Background()
@@ -158,6 +202,11 @@ func main() {
 	if *version {
 		fmt.Printf("yeet version %s, built via %s\n", yeetver.Version, yeetver.BuildMethod)
 		return
+	}
+
+	buildFilter, err := filter.New(*filterExpr)
+	if err != nil {
+		log.Fatalf("can't compile filter %q: %v", *filterExpr, err)
 	}
 
 	vm := goja.New()
@@ -184,33 +233,13 @@ func main() {
 	})
 
 	vm.Set("confext", map[string]any{
-		"build": func(p pkgmeta.Package) string {
-			if p.Platform != "" && p.Platform != "linux" {
-				return ""
-			}
-
-			foutpath, err := mkportable.Confext(p)
-			if err != nil {
-				panic(err)
-			}
-			return foutpath
-		},
-		"name": "sysext",
+		"build": packageBuilder(buildFilter, "confext", linuxOnly(mkportable.Confext)),
+		"name":  "confext",
 	})
 
 	vm.Set("deb", map[string]any{
-		"build": func(p pkgmeta.Package) string {
-			if p.Platform != "" && p.Platform != "linux" {
-				return ""
-			}
-
-			foutpath, err := mkdeb.Build(p)
-			if err != nil {
-				panic(err)
-			}
-			return foutpath
-		},
-		"name": "debian",
+		"build": packageBuilder(buildFilter, "deb", linuxOnly(mkdeb.Build)),
+		"name":  "debian",
 	})
 
 	vm.Set("docker", map[string]any{
@@ -256,74 +285,28 @@ func main() {
 	})
 
 	vm.Set("apk", map[string]any{
-		"build": func(p pkgmeta.Package) string {
-			if p.Platform != "" && p.Platform != "linux" {
-				return ""
-			}
-
-			foutpath, err := mkapk.Build(p)
-			if err != nil {
-				panic(err)
-			}
-			return foutpath
-		},
-		"name": "apk",
+		"build": packageBuilder(buildFilter, "apk", linuxOnly(mkapk.Build)),
+		"name":  "apk",
 	})
 
 	vm.Set("rpm", map[string]any{
-		"build": func(p pkgmeta.Package) string {
-			if p.Platform != "" && p.Platform != "linux" {
-				return ""
-			}
-
-			foutpath, err := mkrpm.Build(p)
-			if err != nil {
-				panic(err)
-			}
-			return foutpath
-		},
-		"name": "rpm",
+		"build": packageBuilder(buildFilter, "rpm", linuxOnly(mkrpm.Build)),
+		"name":  "rpm",
 	})
 
 	vm.Set("portable", map[string]any{
-		"build": func(p pkgmeta.Package) string {
-			if p.Platform != "" && p.Platform != "linux" {
-				return ""
-			}
-
-			foutpath, err := mkportable.Portable(p)
-			if err != nil {
-				panic(err)
-			}
-			return foutpath
-		},
-		"name": "portable",
+		"build": packageBuilder(buildFilter, "portable", linuxOnly(mkportable.Portable)),
+		"name":  "portable",
 	})
 
 	vm.Set("sysext", map[string]any{
-		"build": func(p pkgmeta.Package) string {
-			if p.Platform != "" && p.Platform != "linux" {
-				return ""
-			}
-
-			foutpath, err := mkportable.Sysext(p)
-			if err != nil {
-				panic(err)
-			}
-			return foutpath
-		},
-		"name": "sysext",
+		"build": packageBuilder(buildFilter, "sysext", linuxOnly(mkportable.Sysext)),
+		"name":  "sysext",
 	})
 
 	vm.Set("tarball", map[string]any{
-		"build": func(p pkgmeta.Package) string {
-			foutpath, err := mktarball.Build(p)
-			if err != nil {
-				panic(err)
-			}
-			return foutpath
-		},
-		"name": "tarball",
+		"build": packageBuilder(buildFilter, "tarball", mktarball.Build),
+		"name":  "tarball",
 	})
 
 	vm.Set("yeet", map[string]any{

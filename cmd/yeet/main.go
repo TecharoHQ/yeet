@@ -234,7 +234,7 @@ func main() {
 
 	vm.Set("confext", map[string]any{
 		"build": packageBuilder(buildFilter, "confext", linuxOnly(mkportable.Confext)),
-		"name":  "sysext",
+		"name":  "confext",
 	})
 
 	vm.Set("deb", map[string]any{

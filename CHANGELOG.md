@@ -1,3 +1,9 @@
+# [0.13.0](https://github.com/TecharoHQ/yeet/compare/v0.12.1...v0.13.0) (2026-10-09)
+
+### Features
+
+- **yeet:** add --filter flag for CEL build filtering ([#104](https://github.com/TecharoHQ/yeet/issues/104)) ([b8f485c](https://github.com/TecharoHQ/yeet/commit/b8f485c2a73a91a8934d0edf89ac5bf9159570c7))
+
 ## [0.12.1](https://github.com/TecharoHQ/yeet/compare/v0.12.0...v0.12.1) (2026-07-10)
 
 ### Bug Fixes

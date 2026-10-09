@@ -38,8 +38,8 @@ github.com/ProtonMail/gosop v1.1.0 h1:VfBseLIBdw+qpZP2T8jzn9kUHAuOgymz5CXrBuKerR
 github.com/ProtonMail/gosop v1.1.0/go.mod h1:/1Sjc5z52qlSr5akNGf3LlAhVIenBSymq/hCN4HOyKM=
 github.com/Songmu/gitconfig v0.2.2 h1:tiQY2KZqgdgjs1C7slWd31EB8NbItN7BOKxCIHSlK4Y=
 github.com/Songmu/gitconfig v0.2.2/go.mod h1:lZ0lKL6K+xvT+QzmmGxHQgOnneiWcbhGAV2DKI6PBpM=
-github.com/Xe/erofs v0.6.0 h1:Yicgpi9e3QHp8QwTgQxU7CBKTF/BcASkcbkh7QgVTm0=
-github.com/Xe/erofs v0.6.0/go.mod h1:GGxvJkCKU4yKfJ+Trap2xC8iN0HGuTUEsD5oz+olLJI=
+github.com/Xe/erofs v0.6.1 h1:GnrHZ+dxAQG9+Gy+hI06ANT9X8CA79uDwbaZqNad4bU=
+github.com/Xe/erofs v0.6.1/go.mod h1:GGxvJkCKU4yKfJ+Trap2xC8iN0HGuTUEsD5oz+olLJI=
 github.com/anmitsu/go-shlex v0.0.0-20200514113438-38f4b401e2be h1:9AeTilPcZAjCFIImctFaOjnTIavg87rW78vTPkQqLI8=
 github.com/anmitsu/go-shlex v0.0.0-20200514113438-38f4b401e2be/go.mod h1:ySMOLuWl6zY27l47sB3qLNK6tF2fkHG55UZxx8oIVo4=
 github.com/antlr4-go/antlr/v4 v4.13.1 h1:SqQKkuVZ+zWkMMNkjy5FZe5mr5WURWnlpmOuzYWrPrQ=

@@ -233,6 +233,10 @@ func build(p pkgmeta.Package, method string) (foutpath string, err error) {
 		return "", err
 	}
 
+	if err := b.Build(); err != nil {
+		return "", err
+	}
+
 	slog.Info("built package", "name", p.Name, "arch", p.Goarch, "version", p.Version, "path", fout.Name())
 
 	return fout.Name(), err

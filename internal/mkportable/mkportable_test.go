@@ -1,6 +1,7 @@
 package mkportable
 
 import (
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -47,7 +48,14 @@ func TestAllMethods(t *testing.T) {
 				GOOS:   "linux",
 				GOARCH: "amd64",
 			})
-			t.Log(fname)
+			st, err := os.Stat(fname)
+			if err != nil {
+				t.Error(err)
+			}
+			t.Log(fname, st.Size(), "bytes")
+			if st.Size() == 0 {
+				t.Error(fname, "is zero bytes long")
+			}
 		})
 	}
 }

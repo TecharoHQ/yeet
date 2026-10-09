@@ -99,10 +99,14 @@ func TestPackageBuilder(t *testing.T) {
 
 			const builtPath = "var/built.pkg"
 			built := false
-			build := packageBuilder(f, tt.method, tt.linuxOnly, func(pkgmeta.Package) (string, error) {
+			fn := func(pkgmeta.Package) (string, error) {
 				built = true
 				return builtPath, nil
-			})
+			}
+			if tt.linuxOnly {
+				fn = linuxOnly(fn)
+			}
+			build := packageBuilder(f, tt.method, fn)
 
 			got := build(tt.pkg)
 
@@ -132,7 +136,7 @@ func TestPackageBuilderPanicsOnBuildError(t *testing.T) {
 	}
 
 	wantErr := errors.New("build failed")
-	build := packageBuilder(f, "deb", true, func(pkgmeta.Package) (string, error) {
+	build := packageBuilder(f, "deb", func(pkgmeta.Package) (string, error) {
 		return "", wantErr
 	})
 

@@ -1,7 +1,6 @@
 package filter
 
 import (
-	"errors"
 	"testing"
 )
 
@@ -117,22 +116,18 @@ func TestNewInvalid(t *testing.T) {
 	for _, tt := range []struct {
 		name string
 		expr string
-		err  error
 	}{
-		{name: "syntax error", expr: `goos ==`, err: ErrInvalidExpression},
-		{name: "undeclared variable", expr: `gooos == "linux"`, err: ErrInvalidExpression},
-		{name: "wrong operand type", expr: `goos == 1`, err: ErrInvalidExpression},
-		{name: "string result", expr: `goos`, err: ErrNotBool},
-		{name: "int result", expr: `1 + 1`, err: ErrNotBool},
+		{name: "syntax error", expr: `goos ==`},
+		{name: "undeclared variable", expr: `gooos == "linux"`},
+		{name: "wrong operand type", expr: `goos == 1`},
+		{name: "string result", expr: `goos`},
+		{name: "int result", expr: `1 + 1`},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			_, err := New(tt.expr)
-			if !errors.Is(err, tt.err) {
-				t.Logf("want: %v", tt.err)
-				t.Logf("got:  %v", err)
-				t.Error("got wrong error")
+			if _, err := New(tt.expr); err == nil {
+				t.Errorf("New(%q) did not return an error", tt.expr)
 			}
 		})
 	}

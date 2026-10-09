@@ -2,15 +2,9 @@
 package filter
 
 import (
-	"errors"
 	"fmt"
 
 	"cel.dev/cel-go/cel"
-)
-
-var (
-	ErrInvalidExpression = errors.New("filter: invalid expression")
-	ErrNotBool           = errors.New("filter: expression must evaluate to a bool")
 )
 
 // Filter matches package builds against a compiled CEL expression.
@@ -32,21 +26,21 @@ func New(expr string) (*Filter, error) {
 		cel.Variable("goarch", cel.StringType),
 	)
 	if err != nil {
-		return nil, fmt.Errorf("filter: can't create CEL environment: %w", err)
+		return nil, fmt.Errorf("can't create CEL environment: %w", err)
 	}
 
 	ast, iss := env.Compile(expr)
 	if err := iss.Err(); err != nil {
-		return nil, fmt.Errorf("%w: %w", ErrInvalidExpression, err)
+		return nil, fmt.Errorf("invalid expression: %w", err)
 	}
 
 	if !ast.OutputType().IsExactType(cel.BoolType) {
-		return nil, fmt.Errorf("%w, got: %s", ErrNotBool, ast.OutputType())
+		return nil, fmt.Errorf("expression must evaluate to a bool, got: %s", ast.OutputType())
 	}
 
 	prg, err := env.Program(ast)
 	if err != nil {
-		return nil, fmt.Errorf("filter: can't create CEL program: %w", err)
+		return nil, fmt.Errorf("can't create CEL program: %w", err)
 	}
 
 	return &Filter{prg: prg}, nil
@@ -55,7 +49,7 @@ func New(expr string) (*Filter, error) {
 // Match reports whether a build with the given method, goos, and goarch
 // passes the filter.
 func (f *Filter) Match(method, goos, goarch string) (bool, error) {
-	if f == nil || f.prg == nil {
+	if f.prg == nil {
 		return true, nil
 	}
 
@@ -65,13 +59,8 @@ func (f *Filter) Match(method, goos, goarch string) (bool, error) {
 		"goarch": goarch,
 	})
 	if err != nil {
-		return false, fmt.Errorf("filter: can't evaluate expression: %w", err)
+		return false, fmt.Errorf("can't evaluate filter expression: %w", err)
 	}
 
-	result, ok := out.Value().(bool)
-	if !ok {
-		return false, fmt.Errorf("%w, got: %T", ErrNotBool, out.Value())
-	}
-
-	return result, nil
+	return out.Value() == true, nil
 }

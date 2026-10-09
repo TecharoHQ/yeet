@@ -148,18 +148,24 @@ func gitVersion() string {
 	return vers
 }
 
+// linuxOnly wraps a package build function so that it returns an empty
+// string without building when the package targets another platform.
+func linuxOnly(build func(pkgmeta.Package) (string, error)) func(pkgmeta.Package) (string, error) {
+	return func(p pkgmeta.Package) (string, error) {
+		if p.Platform != "" && p.Platform != "linux" {
+			return "", nil
+		}
+		return build(p)
+	}
+}
+
 // packageBuilder wraps a package build function for use in the yeetfile. It
-// returns an empty string without building when the package targets a
-// platform the method does not support or when f does not match.
-func packageBuilder(f *filter.Filter, method string, linuxOnly bool, build func(pkgmeta.Package) (string, error)) func(pkgmeta.Package) string {
+// returns an empty string without building when f does not match.
+func packageBuilder(f *filter.Filter, method string, build func(pkgmeta.Package) (string, error)) func(pkgmeta.Package) string {
 	return func(p pkgmeta.Package) string {
 		goos := p.Platform
 		if goos == "" {
 			goos = "linux"
-		}
-
-		if linuxOnly && goos != "linux" {
-			return ""
 		}
 
 		goarch := p.Goarch
@@ -200,8 +206,7 @@ func main() {
 
 	buildFilter, err := filter.New(*filterExpr)
 	if err != nil {
-		slog.Error("can't compile filter", "filter", *filterExpr, "err", err)
-		os.Exit(1)
+		log.Fatalf("can't compile filter %q: %v", *filterExpr, err)
 	}
 
 	vm := goja.New()
@@ -228,12 +233,12 @@ func main() {
 	})
 
 	vm.Set("confext", map[string]any{
-		"build": packageBuilder(buildFilter, "confext", true, mkportable.Confext),
+		"build": packageBuilder(buildFilter, "confext", linuxOnly(mkportable.Confext)),
 		"name":  "sysext",
 	})
 
 	vm.Set("deb", map[string]any{
-		"build": packageBuilder(buildFilter, "deb", true, mkdeb.Build),
+		"build": packageBuilder(buildFilter, "deb", linuxOnly(mkdeb.Build)),
 		"name":  "debian",
 	})
 
@@ -280,27 +285,27 @@ func main() {
 	})
 
 	vm.Set("apk", map[string]any{
-		"build": packageBuilder(buildFilter, "apk", true, mkapk.Build),
+		"build": packageBuilder(buildFilter, "apk", linuxOnly(mkapk.Build)),
 		"name":  "apk",
 	})
 
 	vm.Set("rpm", map[string]any{
-		"build": packageBuilder(buildFilter, "rpm", true, mkrpm.Build),
+		"build": packageBuilder(buildFilter, "rpm", linuxOnly(mkrpm.Build)),
 		"name":  "rpm",
 	})
 
 	vm.Set("portable", map[string]any{
-		"build": packageBuilder(buildFilter, "portable", true, mkportable.Portable),
+		"build": packageBuilder(buildFilter, "portable", linuxOnly(mkportable.Portable)),
 		"name":  "portable",
 	})
 
 	vm.Set("sysext", map[string]any{
-		"build": packageBuilder(buildFilter, "sysext", true, mkportable.Sysext),
+		"build": packageBuilder(buildFilter, "sysext", linuxOnly(mkportable.Sysext)),
 		"name":  "sysext",
 	})
 
 	vm.Set("tarball", map[string]any{
-		"build": packageBuilder(buildFilter, "tarball", false, mktarball.Build),
+		"build": packageBuilder(buildFilter, "tarball", mktarball.Build),
 		"name":  "tarball",
 	})
 

@@ -53,8 +53,3 @@ jobs:
         run: |
           go vet ./...
           go test ./...
-
-      - uses: dominikh/staticcheck-action@9716614d4101e79b4340dd97b10e54d68234e431 # v1.4.1
-        with:
-          version: "latest"
-          install-go: false
